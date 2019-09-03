@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp2
 {
-   public class Logica
+    public class Logica
     {
         public class TestClass
         {
@@ -26,25 +26,46 @@ namespace ConsoleApp2
                 }
             }
         }
+
+        private static T DatosValor<T>(object valor)
+        {
+
+            return (T)valor;
+           
+        }
+
+
         public Logica()
         {
-            var salida = new SalidaGenerica { NombrePropiedad = "Nombre", Valor = "55",TipoDato="string" };
 
-            var salidaCasa = new SalidaGenerica { NombrePropiedad = "Tamano", Valor = "20" , TipoDato="int" };
+            var salida = new Salida();
+            salida.ListaSalidas = new List<SalidaGenerica> {
+                new SalidaGenerica {NombrePadre="Ejemplo" ,NombrePropiedad = "Nombre", Valor = "55", Condicion = "50" },
+                new SalidaGenerica { NombrePropiedad = "Tamano", Valor = "20", Condicion = "A002" } };
 
             var gestor = new GestorReglas.LogicaNegocio.Gestor();
-
+            var tipod = gestor.L.GetType();
             foreach (var item in gestor.L)
             {
 
                 var tipo = item.GetType();
                 var PropertyInfos = item.GetType().GetProperties();
-                var propiedad= PropertyInfos.Where(x => x.Name == salida.NombrePropiedad).FirstOrDefault();
 
-                if (propiedad != null)
+                foreach (var p in PropertyInfos)
                 {
+                    var s = salida.ListaSalidas.FirstOrDefault(x => x.NombrePropiedad == p.Name && x.NombrePadre == tipo.Name);
+                    if (s != null)
+                    {
 
-                    propiedad.SetValue(item, "This caption has been changed.", null);
+
+                        PropertyInfo propertyInfo = item.GetType().GetProperty(p.Name);
+                        var valor = propertyInfo.GetValue(item, null);
+                        if (DatosValor< item.GetType().GetProperty(p.Name). > (valor) == s.Condicion)
+                        {
+
+                        }
+                        propertyInfo.SetValue(item, Convert.ChangeType(s.Valor, propertyInfo.PropertyType), null);
+                    }
                 }
             }
         }
