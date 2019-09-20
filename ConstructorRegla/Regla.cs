@@ -7,6 +7,7 @@ namespace ConstructorRegla
     {
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
+        public bool EstadoActivo { get; set; }
         public DateTime? FechaInicioRegla { get; set; }
         public DateTime? FechaFinRegla { get; set; }
         public List<int> Convenio { get; set; }

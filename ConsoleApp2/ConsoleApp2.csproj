@@ -62,12 +62,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConstructorRegla\ConstructorRegla.csproj">
-      <Project>{c3f458a2-cd80-4e3a-ade6-4f91c7cd70c9}</Project>
+      <Project>{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}</Project>
       <Name>ConstructorRegla</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GestorReglas\GestorReglas.csproj">
-      <Project>{1dcf3acc-6fc6-4a05-ba77-f133b8c37e99}</Project>
-      <Name>GestorReglas</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

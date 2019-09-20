@@ -1,7 +1,4 @@
-﻿using GestorReglas.Modelos.Regla.Salida;
-using System.Linq;
-
-namespace ConsoleApp2
+﻿namespace ConsoleApp2
 {
     public class Logica
     {

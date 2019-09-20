@@ -10,11 +10,11 @@ namespace ConstructorRegla
         {
             Expression<Func<Contrato, bool>> predicadoContrato = contrato => contrato.Estado.Equals("Activo", StringComparison.InvariantCultureIgnoreCase);
 
-            if (regla.Entrada.Producto.IsNotNullOrEmpty())
-            {
-                Expression<Func<Contrato, bool>> criterioProducto = contrato => contrato.Producto == regla.Entrada.Producto;
-                predicadoContrato = predicadoContrato.And(criterioProducto);
-            }
+            //if (regla.Entrada.EntradaContrato.IsNotNull())
+            //{
+            //    Expression<Func<Contrato, bool>> criterioProducto = contrato => contrato.Producto == regla.Entrada.;
+            //    predicadoContrato = predicadoContrato.And(criterioProducto);
+            //}
 
             return predicadoContrato;
         }
