@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConstructorRegla
+namespace GestorReglaContratoCobertura.Modelos.Contrato
 {
     public class Titular
     {
@@ -96,11 +96,12 @@ namespace ConstructorRegla
         public int NumeroEmpresa { get; set; }
         public string Sucursal { get; set; }
         public int CodigoSucursal { get; set; }
-        public string Ruc { get; set; }
-        public string RazonSocial { get; set; }
         public string NombreLista { get; set; }
         public int NumeroLista { get; set; }
         public bool EsDeducibleAnual { get; set; }
+        public string Ruc { get; set; }
+        public string RazonSocial { get; set; }
+        public string Observaciones { get; set; }
         public List<Deducible> Deducibles { get; set; }
         public List<Beneficiario> Beneficiarios { get; set; }
     }

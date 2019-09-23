@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleApp2</RootNamespace>
     <AssemblyName>ConsoleApp2</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logica.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,9 +61,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConstructorRegla\ConstructorRegla.csproj">
-      <Project>{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}</Project>
-      <Name>ConstructorRegla</Name>
+    <ProjectReference Include="..\GestorReglaContratoCobertura\GestorReglaContratoCobertura.csproj">
+      <Project>{fe5dc756-7e09-4862-b6fb-84eb8d9642c3}</Project>
+      <Name>GestorReglaContratoCobertura</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTestGestorReglas\UnitTestGestorReglas.csproj">
+      <Project>{7123a18c-8de3-4942-8e5b-6f00bc153958}</Project>
+      <Name>UnitTestGestorReglas</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

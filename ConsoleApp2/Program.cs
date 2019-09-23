@@ -1,10 +1,7 @@
-﻿using ConstructorRegla;
-using ConstructorRegla.Utiles;
+﻿using GestorReglaContratoCobertura;
 using Newtonsoft.Json;
-using Saludsa.UtilidadesRest;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using UnitTestGestorReglas;
 
 namespace ConsoleApp2
 {
@@ -12,51 +9,14 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            var convenio = 11715; // Convenio de Difare para cambio de texto en parámetro
-            var aplicacion = 11715; // Convenio de Difare para cambio de texto en parámetro
-            var plataforma = 11715; // Convenio de Difare para cambio de texto en parámetro
-            var listaContratos = DatosPrueba.ObtenerContratoCobertura();
-            var listaReglas = DatosPrueba.ObtenerReglas()
-                .Where(regla => regla.EstadoActivo
-                && Validaciones.ValidarFechaRegla(regla)
-                && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
-                && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
-                && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true).ToList();
+            var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
+            var aplicacion = 0;
+            var plataforma = 0;
+            var listaContratos = DatosPruebaContrato.ContratoIND();
+            var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
 
-            var contratosAuxiliares = new List<Contrato>(new { });
-            listaReglas.ForEach(regla =>
-            {
-                if (regla.Entrada.IsNotNull() || regla.Salida.IsNotNull())
-                {
-                    if (regla.Entrada.EntradaContrato.IsNotNull())
-                    {
-                        contratosAuxiliares =  Validaciones.ValidarReglasContrato(listaContratos,regla);
-                    }
-
-                    if (regla.Entrada.EntradaBeneficiario.IsNotNull() && contratosAuxiliares.IsNotNull())
-                    {
-                        Validaciones.ValidarReglasBeneficiarios(contratosAuxiliares,regla);
-                    }
-
-                    if (regla.Entrada.EntradaBeneficioPlan.IsNotNull())
-                    {
-                        Validaciones.ValidarBeneficiosPlan();
-                    }
-
-                    var predicado = Predicado.GeneraPredicado(regla);
-                    var contratosPorAplicar = listaContratos.AsQueryable().Where(predicado).ToList();
-
-                    if (contratosPorAplicar.Count > 0)
-                    {
-                        contratosPorAplicar.ForEach(contrato =>
-                        {
-                            var constructor = new GestorReglaConstructor(contrato);
-                            var director = new GestorReglaDirector(constructor);
-                            director.ConstruirContratoConReglas(regla.Salida);
-                        });
-                    }
-                }
-            });
+            var gestorReglas = new GestorReglaContrato(listaReglas);
+            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);
 
             Console.WriteLine(JsonConvert.SerializeObject(listaContratos));
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConstructorRegla
+namespace GestorReglaContratoCobertura.Modelos.Regla
 {
     public class Regla
     {
@@ -10,6 +10,7 @@ namespace ConstructorRegla
         public bool EstadoActivo { get; set; }
         public DateTime? FechaInicioRegla { get; set; }
         public DateTime? FechaFinRegla { get; set; }
+        public bool EstadoActivo { get; set; }
         public List<int> Convenio { get; set; }
         public List<int> Aplicacion { get; set; }
         public List<int> Plataforma { get; set; }
@@ -55,6 +56,8 @@ namespace ConstructorRegla
         public string DiasFinCarenciaHospitalaria { get; set; }
         public bool? BeneficioOda { get; set; }
         public bool? Maternidad { get; set; }
+        // Propiedad para recuperar deducible del contrato
+        public double DeducibleTotal { get; set; }
     }
 
     public class ReglaEntradaBeneficioPlan
@@ -71,32 +74,84 @@ namespace ConstructorRegla
 
     public class SalidaBeneficioPlan
     {
+        public string Nombre { get; set; }
         public double Valor { get; set; }
+        public bool EsPorcentaje { get; set; }
+        public bool EstadoActivo { get; set; }
+        public bool Credito { get; set; }
+        public int Total { get; set; }
+        public int Disponibles { get; set; }
     }
 
 
     public class Salida
     {
+        #region Salidas para Contrato
         public NombrePlan NombrePlan { get; set; }
+        public ObservacionesContrato ObservacionesContrato { get; set; }
+        #endregion Salidas para Contrato
+
+        #region Salidas para Beneficiario
         public Carencia Carencia { get; set; }
-        public BeneficioPlan BeneficioPlan { get; set; }
+        #endregion Salidas para Beneficiario
     }
 
-    public class NombrePlan
+
+    #region Clases salida Contrato
+    public class NombrePlan : CambioTexto
     {
-        public string Campo { get; set; }
-        public string Texto { get; set; }
+    }
+
+    public class ObservacionesContrato : CambioTexto
+    {
+    }
+    #endregion Clases salida Contrato
+
+    #region Clases salida Beneficiario
+
+    public class Deducible
+    {
+        public double DeducibleCubierto { get; set; }
     }
 
     public class Carencia
     {
         public bool EnCarencia { get; set; }
         public short DiasFinCarencia { get; set; }
-        public bool Credito { get; set; }
     }
 
-    public class BeneficioPlan
+    public class CarenciaHospitalaria
     {
-        public double Valor { get; set; }
+        public bool EnCarenciaHospitalaria { get; set; }
+        public bool DiasFinCarenciaHospitalaria { get; set; }
+    }
+
+    public class BeneficioODA
+    {
+
+    }
+
+    public class ObservacionesBeneficiario : CambioTexto
+    {
+    }
+
+    public class MaternidadBeneficiario
+    {
+        public bool Maternidad { get; set; }
+    }
+
+    #endregion Clases salida Beneficiario
+
+    public class CambioTexto
+    {
+        public string Texto { get; set; }
+        public Posicion Posicion { get; set; }
+    }
+
+    public enum Posicion
+    {
+        Pre,
+        Post,
+        Sobreescribir
     }
 }
