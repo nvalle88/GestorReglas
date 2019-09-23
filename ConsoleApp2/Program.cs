@@ -1,8 +1,7 @@
-﻿using ConstructorRegla;
+﻿using GestorReglaContratoCobertura;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using UnitTestGestorReglas;
 
 namespace ConsoleApp2
 {
@@ -10,33 +9,14 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            var convenio = 11715; // Convenio de Difare para cambio de texto en parámetro
-            var listaContratos = DatosPrueba.ObtenerContratoCobertura();
-            var listaReglas = DatosPrueba.ObtenerReglas();
+            var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
+            var aplicacion = 0;
+            var plataforma = 0;
+            var listaContratos = DatosPruebaContrato.ContratoIND();
+            var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
 
-            var listaContratosModificados = new List<Contrato>();
-
-            if (convenio > 0)
-                listaReglas = listaReglas
-                    .Where(r => r.Entrada.Convenio == convenio)
-                    .ToList();
-
-
-            listaReglas.ForEach(regla =>
-            {
-                var predicado = Predicado.GeneraPredicado(regla);
-                var contratosPorAplicar = listaContratos.AsQueryable().Where(predicado).ToList();
-
-                if (contratosPorAplicar.Count > 0)
-                {
-                    contratosPorAplicar.ForEach(contrato =>
-                    {
-                        var constructor = new GestorReglaConstructor(contrato);
-                        var director = new GestorReglaDirector(constructor);
-                        director.ConstruirContratoConReglas(regla.Salida);
-                    });
-                }
-            });
+            var gestorReglas = new GestorReglaContrato(listaReglas);
+            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);
 
             Console.WriteLine(JsonConvert.SerializeObject(listaContratos));
         }

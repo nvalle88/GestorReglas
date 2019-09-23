@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Salud S.A.</Authors>
+    <Description>Gestor de reglas para modificar partes del objeto contrato cobertura</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta1" />
+    <PackageReference Include="UtilidadesRest" Version="1.5.5" />
+  </ItemGroup>
+
+</Project>

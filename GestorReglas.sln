@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29009.5
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GestorReglas", "GestorReglas\GestorReglas.csproj", "{1DCF3ACC-6FC6-4A05-BA77-F133B8C37E99}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestExpresionRegular", "UnitTestExpresionRegular\UnitTestExpresionRegular.csproj", "{6BBB89CA-60C9-4B11-A723-4BBEE306A502}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConstructorRegla", "ConstructorRegla\ConstructorRegla.csproj", "{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestGestorReglas", "UnitTestGestorReglas\UnitTestGestorReglas.csproj", "{7123A18C-8DE3-4942-8E5B-6F00BC153958}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExpresionRegular", "ExpresionRegular\ExpresionRegular.csproj", "{7FA698B5-97FF-440B-9DF2-06A9880C7F41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorReglaContratoCobertura", "GestorReglaContratoCobertura\GestorReglaContratoCobertura.csproj", "{FE5DC756-7E09-4862-B6FB-84EB8D9642C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3F458A2-CD80-4E3A-ADE6-4F91C7CD70C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7123A18C-8DE3-4942-8E5B-6F00BC153958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7123A18C-8DE3-4942-8E5B-6F00BC153958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7123A18C-8DE3-4942-8E5B-6F00BC153958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7123A18C-8DE3-4942-8E5B-6F00BC153958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA698B5-97FF-440B-9DF2-06A9880C7F41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA698B5-97FF-440B-9DF2-06A9880C7F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA698B5-97FF-440B-9DF2-06A9880C7F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA698B5-97FF-440B-9DF2-06A9880C7F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5DC756-7E09-4862-B6FB-84EB8D9642C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5DC756-7E09-4862-B6FB-84EB8D9642C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5DC756-7E09-4862-B6FB-84EB8D9642C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5DC756-7E09-4862-B6FB-84EB8D9642C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
