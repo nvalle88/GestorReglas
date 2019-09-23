@@ -19,6 +19,12 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
     {
         public static ExprRegla GeneraPredicadoRegla(int convenio, int aplicacion, int plataforma)
         {
+            //_listaReglas = _listaReglas
+            //.Where(r => r.EstadoActivo && convenio > 0 ? r.Convenio.Contains(convenio) : true)
+            //.ToList();
+
+
+
             ExprRegla predicado = ConstructorPredicado.True<Regla>();
 
             var fechaActual = DateTime.Now;
@@ -48,7 +54,6 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 ExprRegla criterio = regla => regla.Plataforma.Contains(plataforma);
                 predicado = predicado.And(criterio);
             }
-
 
             return predicado;
         }
@@ -113,7 +118,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
-            // Ejemplo > 1000 && <5000
+            // Ejemplo >1000 && <5000
             if (regla.CoberturaMaxima.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.CoberturaMaxima);

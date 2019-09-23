@@ -25,6 +25,9 @@ namespace GestorReglaContratoCobertura
 
         public List<Contrato> AplicarReglasContratoCobertura(List<Contrato> listaContratos, int convenio = 0, int aplicacion = 0, int plataforma = 0)
         {
+            if (listaContratos.Count == 0)
+                return listaContratos;
+
             var predicadoRegla = Predicado.GeneraPredicadoRegla(convenio, aplicacion, plataforma);
             _listaReglas = _listaReglas.AsQueryable().Where(predicadoRegla).ToList();
 
@@ -38,6 +41,8 @@ namespace GestorReglaContratoCobertura
             var directorBeneficiario = new GestorReglaDirectorBeneficiario(constructorBeneficiario);
             var constructorBeneficioPlan = new GestorReglaConstructorBeneficioPlan(new BeneficiosPlan());
             var directorBeneficioPlan = new GestorReglaDirectorBeneficioPlan(constructorBeneficioPlan);
+
+            // lista de respaldo
             var listaContratoOriginal = listaContratos.CloneJson();
 
             _listaReglas.ForEach(regla =>
@@ -45,41 +50,61 @@ namespace GestorReglaContratoCobertura
                 var predicadoContrato = Predicado.GeneraPredicadoContrato(regla.Entrada.EntradaContrato);
                 //si falla al crear el predicado, no aplicar la regla
                 //if (predicadoContrato.IsNull())
-                var contratosPorAplicar = listaContratos.AsQueryable().Where(predicadoContrato).ToList();
+                var contratosCandidatos = listaContratos.AsQueryable().Where(predicadoContrato).ToList();
 
-                contratosPorAplicar.ForEach(contrato =>
+                contratosCandidatos.ForEach(contrato =>
                 {
-                    constructorContrato.IncorporarContrato(contrato);
-                    directorContrato.ConstruirContratoConReglas(regla.Salida);
-
                     if (contrato.Beneficiarios.IsNotNull())
                     {
                         // Agregar deducible del contrato para validaciones en el beneficiario
                         regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
 
                         var predicadoBeneficiario = Predicado.GeneraPredicadoBeneficiario(regla.Entrada.EntradaBeneficiario);
-                        var beneficiariosPorAplicar = contrato.Beneficiarios.AsQueryable().Where(predicadoBeneficiario).ToList();
+                        var beneficiariosCandidatos = contrato.Beneficiarios.AsQueryable().Where(predicadoBeneficiario).ToList();
 
-                        beneficiariosPorAplicar.ForEach(beneficiario =>
+                        beneficiariosCandidatos.ForEach(beneficiario =>
                         {
-                            constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                            directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
-
                             if (beneficiario.BeneficiosPlan.IsNotNull())
                             {
-                                regla.Entrada.EntradaBeneficioPlan.ForEach(reglaBeneficio =>
+                                if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty())
                                 {
-                                    var predicadoBeneficioPlan = Predicado.GeneraPredicadoBeneficioPlan(reglaBeneficio.EntradaBeneficioPlan);
-                                    var beneficiosPlanPorAplicar = beneficiario.BeneficiosPlan.AsQueryable().Where(predicadoBeneficioPlan).ToList();
-
-                                    beneficiosPlanPorAplicar.ForEach(beneficioPlan =>
+                                    regla.Entrada.EntradaBeneficioPlan.ForEach(reglaBeneficio =>
                                     {
-                                        constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
-                                        directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);
+                                        var predicadoBeneficioPlan = Predicado.GeneraPredicadoBeneficioPlan(reglaBeneficio.EntradaBeneficioPlan);
+                                        var beneficiosPlanPorAplicar = beneficiario.BeneficiosPlan.AsQueryable().Where(predicadoBeneficioPlan).ToList();
+
+                                        beneficiosPlanPorAplicar.ForEach(beneficioPlan =>
+                                        {
+                                            constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
+                                            directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);
+                                            constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                            directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                            constructorContrato.IncorporarContrato(contrato);
+                                            directorContrato.ConstruirContratoConReglas(regla.Salida);
+                                        });
                                     });
-                                });
+                                }
+                                else
+                                {
+                                    constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                    directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                    constructorContrato.IncorporarContrato(contrato);
+                                    directorContrato.ConstruirContratoConReglas(regla.Salida);
+                                }
+                            }
+                            else
+                            {
+                                constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                constructorContrato.IncorporarContrato(contrato);
+                                directorContrato.ConstruirContratoConReglas(regla.Salida);
                             }
                         });
+                    }
+                    else
+                    {
+                        constructorContrato.IncorporarContrato(contrato);
+                        directorContrato.ConstruirContratoConReglas(regla.Salida);
                     }
                 });
             });
