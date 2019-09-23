@@ -23,19 +23,19 @@ namespace ConsoleApp2
                 && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
                 && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true).ToList();
 
-
+            var contratosAuxiliares = new List<Contrato>(new { });
             listaReglas.ForEach(regla =>
             {
                 if (regla.Entrada.IsNotNull() || regla.Salida.IsNotNull())
                 {
                     if (regla.Entrada.EntradaContrato.IsNotNull())
                     {
-                        Validaciones.ValidarReglasContrato();
+                        contratosAuxiliares =  Validaciones.ValidarReglasContrato(listaContratos,regla);
                     }
 
-                    if (regla.Entrada.EntradaBeneficiario.IsNotNull())
+                    if (regla.Entrada.EntradaBeneficiario.IsNotNull() && contratosAuxiliares.IsNotNull())
                     {
-                        Validaciones.ValidarReglasBeneficiarios();
+                        Validaciones.ValidarReglasBeneficiarios(contratosAuxiliares,regla);
                     }
 
                     if (regla.Entrada.EntradaBeneficioPlan.IsNotNull())
