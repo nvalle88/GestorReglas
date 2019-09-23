@@ -17,45 +17,13 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 {
     public static class Predicado
     {
-        public static ExprRegla GeneraPredicadoRegla(int convenio, int aplicacion, int plataforma)
+        public static List<Regla> ObterenerReglasFiltrada(List<Regla> listasReglas, int convenio, int aplicacion, int plataforma)
         {
-            //_listaReglas = _listaReglas
-            //.Where(r => r.EstadoActivo && convenio > 0 ? r.Convenio.Contains(convenio) : true)
-            //.ToList();
-
-
-
-            ExprRegla predicado = ConstructorPredicado.True<Regla>();
-
-            var fechaActual = DateTime.Now.Date;
-            ExprRegla criterioFecha = regla
-                => (fechaActual >= regla.FechaInicioRegla.Value.Date || regla.FechaInicioRegla == null)
-                && (fechaActual <= regla.FechaFinRegla.Value.Date || regla.FechaFinRegla == null);
-
-            // Todo: Probar nuevo orden en validación de fechas
-            //ExpresionRegla cFecha = regla
-            //    => (regla.FechaInicioRegla == null || regla.FechaInicioRegla <= fechaActual) &&
-            //    (regla.FechaFinRegla == null || regla.FechaFinRegla >= fechaActual);
-
-            if (convenio > 0)
-            {
-                ExprRegla criterio = regla => regla.Convenio.Contains(convenio);
-                predicado = predicado.And(criterio);
-            }
-
-            if (aplicacion > 0)
-            {
-                ExprRegla criterio = regla => regla.Aplicacion.Contains(aplicacion);
-                predicado = predicado.And(criterio);
-            }
-
-            if (plataforma > 0)
-            {
-                ExprRegla criterio = regla => regla.Plataforma.Contains(plataforma);
-                predicado = predicado.And(criterio);
-            }
-
-            return predicado;
+            return listasReglas.Where(regla => regla.EstadoActivo
+                && Validaciones.ValidarFechaRegla(regla)
+                && regla.Convenio.IsNotNullOrEmpty() || convenio>0  ? regla.Convenio.Contains(convenio) : true
+                && regla.Aplicacion.IsNotNullOrEmpty() || aplicacion >0 ? regla.Aplicacion.Contains(aplicacion) : true
+                && regla.Plataforma.IsNotNullOrEmpty() || plataforma>0 ? regla.Plataforma.Contains(plataforma) : true).ToList();
         }
 
         public static ExprContrato GeneraPredicadoContrato(ReglaEntradaContrato regla)

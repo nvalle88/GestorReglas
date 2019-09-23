@@ -28,8 +28,7 @@ namespace GestorReglaContratoCobertura
             if (listaContratos.Count == 0)
                 return listaContratos;
 
-            var predicadoRegla = Predicado.GeneraPredicadoRegla(convenio, aplicacion, plataforma);
-            _listaReglas = _listaReglas.AsQueryable().Where(predicadoRegla).ToList();
+            var predicadoRegla = Predicado.ObterenerReglasFiltrada(_listaReglas,convenio, aplicacion, plataforma);
 
             if (_listaReglas.Count == 0)
                 return listaContratos;
