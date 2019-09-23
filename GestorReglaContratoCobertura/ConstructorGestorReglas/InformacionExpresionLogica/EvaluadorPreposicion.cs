@@ -1,5 +1,8 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System;
+
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
@@ -12,18 +15,19 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpres
             _match = match;
         }
 
-        public (bool, Proposicion, string, Proposicion) ValidarCadena()
+        public (List<ExpressionFilter>, string) ValidarCadena()
         {
+            var proposiciones = new List<ExpressionFilter>();
             if (!_match.Success)
-                return (false, null, string.Empty, null);
+                return (proposiciones, string.Empty);
 
-            var proposicion1 = new Proposicion(_match.Groups[1].ToString(), _match.Groups[2].ToString());
+            proposiciones.Add(new ExpressionFilter(_match.Groups[1].ToString(), Convert.ToDouble(_match.Groups[2].ToString())));
 
             if (!_match.Groups[4].Success)
-                return (true, proposicion1, string.Empty, null);
+                return (proposiciones, string.Empty);
 
-            var proposicion2 = new Proposicion(_match.Groups[5].ToString(), _match.Groups[6].ToString());
-            return (false, proposicion1, _match.Groups[4].ToString(), proposicion2);
+            proposiciones.Add(new ExpressionFilter(_match.Groups[5].ToString(), Convert.ToDouble(_match.Groups[6].ToString())));
+            return (proposiciones, _match.Groups[4].ToString());
         }
     }
 }

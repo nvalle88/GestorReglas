@@ -28,8 +28,7 @@ namespace GestorReglaContratoCobertura
             if (listaContratos.Count == 0)
                 return listaContratos;
 
-            var predicadoRegla = Predicado.GeneraPredicadoRegla(convenio, aplicacion, plataforma);
-            _listaReglas = _listaReglas.AsQueryable().Where(predicadoRegla).ToList();
+            _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma);
 
             if (_listaReglas.Count == 0)
                 return listaContratos;
@@ -47,10 +46,7 @@ namespace GestorReglaContratoCobertura
 
             _listaReglas.ForEach(regla =>
             {
-                var predicadoContrato = Predicado.GeneraPredicadoContrato(regla.Entrada.EntradaContrato);
-                //si falla al crear el predicado, no aplicar la regla
-                //if (predicadoContrato.IsNull())
-                var contratosCandidatos = listaContratos.AsQueryable().Where(predicadoContrato).ToList();
+                var contratosCandidatos = Predicado.ObtenerContratosCandidatos(listaContratos, regla.Entrada.EntradaContrato);
 
                 contratosCandidatos.ForEach(contrato =>
                 {
@@ -59,8 +55,7 @@ namespace GestorReglaContratoCobertura
                         // Agregar deducible del contrato para validaciones en el beneficiario
                         regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
 
-                        var predicadoBeneficiario = Predicado.GeneraPredicadoBeneficiario(regla.Entrada.EntradaBeneficiario);
-                        var beneficiariosCandidatos = contrato.Beneficiarios.AsQueryable().Where(predicadoBeneficiario).ToList();
+                        var beneficiariosCandidatos = Predicado.ObtenerBeneficiariosCandidatos(contrato.Beneficiarios, regla.Entrada.EntradaBeneficiario);
 
                         beneficiariosCandidatos.ForEach(beneficiario =>
                         {
@@ -70,10 +65,9 @@ namespace GestorReglaContratoCobertura
                                 {
                                     regla.Entrada.EntradaBeneficioPlan.ForEach(reglaBeneficio =>
                                     {
-                                        var predicadoBeneficioPlan = Predicado.GeneraPredicadoBeneficioPlan(reglaBeneficio.EntradaBeneficioPlan);
-                                        var beneficiosPlanPorAplicar = beneficiario.BeneficiosPlan.AsQueryable().Where(predicadoBeneficioPlan).ToList();
+                                        var beneficiosPlanCandidatos = Predicado.ObtenerBeneficiosPlanCandidatos(beneficiario.BeneficiosPlan, reglaBeneficio.EntradaBeneficioPlan);
 
-                                        beneficiosPlanPorAplicar.ForEach(beneficioPlan =>
+                                        beneficiosPlanCandidatos.ForEach(beneficioPlan =>
                                         {
                                             constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
                                             directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);

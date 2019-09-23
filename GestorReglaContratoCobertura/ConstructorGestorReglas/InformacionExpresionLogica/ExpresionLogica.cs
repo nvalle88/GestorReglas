@@ -1,17 +1,18 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
+using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
+using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
     public class ExpresionLogica
     {
         public bool EsExpresionLogica { get; }
-        public bool EsPredicadoSimple { get; }
-        public Proposicion Proposicion1 { get; }
+        public List<ExpressionFilter> Proposiciones { get; }
         public string OperadorLogico { get; }
-        public Proposicion Proposicion2 { get; }
 
         public ExpresionLogica(string cadena)
         {
+            Proposiciones = new List<ExpressionFilter>();
             cadena = ExpresionRegular.EliminarEspacio(cadena);
             var match = ExpresionRegular.ValidarExpresionLogica(cadena); // valida si expresion como >=20 | (>20 && <40)
 
@@ -20,7 +21,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpres
             if (EsExpresionLogica)
             {
                 var evaluador = new EvaluadorPreposicion(match);
-                (EsPredicadoSimple, Proposicion1, OperadorLogico, Proposicion2) = evaluador.ValidarCadena();
+                (Proposiciones, OperadorLogico) = evaluador.ValidarCadena();
             }
         }
     }
