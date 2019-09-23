@@ -27,10 +27,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             ExprRegla predicado = ConstructorPredicado.True<Regla>();
 
-            var fechaActual = DateTime.Now;
+            var fechaActual = DateTime.Now.Date;
             ExprRegla criterioFecha = regla
-                => (fechaActual >= regla.FechaInicioRegla || regla.FechaInicioRegla == null)
-                && (fechaActual <= regla.FechaFinRegla || regla.FechaFinRegla == null);
+                => (fechaActual >= regla.FechaInicioRegla.Value.Date || regla.FechaInicioRegla == null)
+                && (fechaActual <= regla.FechaFinRegla.Value.Date || regla.FechaFinRegla == null);
 
             // Todo: Probar nuevo orden en validación de fechas
             //ExpresionRegla cFecha = regla
