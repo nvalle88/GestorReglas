@@ -10,7 +10,6 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public bool EstadoActivo { get; set; }
         public DateTime? FechaInicioRegla { get; set; }
         public DateTime? FechaFinRegla { get; set; }
-        public bool EstadoActivo { get; set; }
         public List<int> Convenio { get; set; }
         public List<int> Aplicacion { get; set; }
         public List<int> Plataforma { get; set; }

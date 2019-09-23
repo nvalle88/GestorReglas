@@ -1,4 +1,5 @@
-﻿using Saludsa.UtilidadesRest;
+﻿using ConstructorRegla.Modelos.Regla;
+using Saludsa.UtilidadesRest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,7 +58,7 @@ namespace ConstructorRegla.Utiles
 
         public static void ValidarReglasBeneficiarios()
         {
-           if
+           
         }
 
         public static void ValidarBeneficiosPlan()
