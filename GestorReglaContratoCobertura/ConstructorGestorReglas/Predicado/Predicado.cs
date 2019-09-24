@@ -21,9 +21,9 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             return listasReglas.Where(regla => regla.EstadoActivo
                 && Validaciones.ValidarFechaRegla(regla)
-                && regla.Convenio.IsNotNullOrEmpty() || convenio>0  ? regla.Convenio.Contains(convenio) : true
-                && regla.Aplicacion.IsNotNullOrEmpty() || aplicacion >0 ? regla.Aplicacion.Contains(aplicacion) : true
-                && regla.Plataforma.IsNotNullOrEmpty() || plataforma>0 ? regla.Plataforma.Contains(plataforma) : true).ToList();
+                && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
+                && regla.Aplicacion.IsNotNullOrEmpty()  ? regla.Aplicacion.Contains(aplicacion) : true
+                && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true).ToList();
         }
 
         public static ExprContrato GeneraPredicadoContrato(ReglaEntradaContrato regla)
