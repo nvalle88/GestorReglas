@@ -19,4 +19,17 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
             }
         }
     }
+
+    public class CambioTexto
+    {
+        public string Texto { get; set; }
+        public Posicion Posicion { get; set; }
+    }
+
+    public enum Posicion
+    {
+        Pre,
+        Post,
+        Sobreescribir
+    }
 }
