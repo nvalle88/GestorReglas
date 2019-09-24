@@ -14,6 +14,7 @@ using ExprBeneficiario = System.Linq.Expressions.Expression<System.Func<GestorRe
 using ExprBeneficioPlan = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.BeneficiosPlan, bool>>;
 using System.Collections;
 using System.Reflection;
+using GestorReglaContratoCobertura.Extensores;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 {
@@ -275,11 +276,19 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
         internal static List<Regla> ObtenerReglasCandidatas(List<Regla> reglas, int convenio, int aplicacion, int plataforma)
         {
-            return reglas.Where(regla => regla.EstadoActivo
-                && Validaciones.ValidarFechaRegla(regla)
-                && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
-                && regla.Aplicacion.IsNotNullOrEmpty()  ? regla.Aplicacion.Contains(aplicacion) : true
-                && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true).ToList();;
+            var listaSalida = new List<Regla>();
+            foreach (var regla in reglas)
+            {
+                if (regla.EstadoActivo 
+                    &&  Validaciones.ValidarFechaRegla(regla) 
+                    && regla.Convenio.IsNotNullOrEmpty2() ? regla.Convenio.Contains(convenio) : true 
+                    && regla.Aplicacion.IsNotNullOrEmpty2() ? regla.Aplicacion.Contains(aplicacion) : true
+                    && regla.Plataforma.IsNotNullOrEmpty2() ? regla.Plataforma.Contains(plataforma) : true)
+                {
+                    listaSalida.Add(regla);
+                }
+            }
+            return listaSalida;
         }
 
         internal static List<Contrato> ObtenerContratosCandidatos(List<Contrato> contratos, ReglaEntradaContrato regla)

@@ -31,7 +31,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
             }
             catch (Exception)
             {
-                throw;
+                return false;
             }
         }
     }
