@@ -25,4 +25,18 @@
         public static string Division => "/";
         public static string Producto => "^";
     }
+
+    public enum Operador
+    {
+        Igual,
+        Menor,
+        MenorIgual,
+        Mayor,
+        MayorIgual,
+        Diferente,
+        Contiene, //for strings  
+        IniciaCon, //for strings  
+        TerminaCon, //for strings  
+        IgualQue // for strings
+    }
 }
