@@ -15,18 +15,18 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpres
             _match = match;
         }
 
-        public (List<ExpressionFilter>, string) ValidarCadena()
+        public (List<FiltroExpresion>, string) ValidarCadena()
         {
-            var proposiciones = new List<ExpressionFilter>();
+            var proposiciones = new List<FiltroExpresion>();
             if (!_match.Success)
                 return (proposiciones, string.Empty);
 
-            proposiciones.Add(new ExpressionFilter(_match.Groups[1].ToString(), Convert.ToDouble(_match.Groups[2].ToString())));
+            proposiciones.Add(new FiltroExpresion(_match.Groups[1].ToString(), Convert.ToDouble(_match.Groups[2].ToString())));
 
             if (!_match.Groups[4].Success)
                 return (proposiciones, string.Empty);
 
-            proposiciones.Add(new ExpressionFilter(_match.Groups[5].ToString(), Convert.ToDouble(_match.Groups[6].ToString())));
+            proposiciones.Add(new FiltroExpresion(_match.Groups[5].ToString(), Convert.ToDouble(_match.Groups[6].ToString())));
             return (proposiciones, _match.Groups[4].ToString());
         }
     }

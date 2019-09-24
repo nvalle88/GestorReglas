@@ -7,12 +7,12 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpres
     public class ExpresionLogica
     {
         public bool EsExpresionLogica { get; }
-        public List<ExpressionFilter> Proposiciones { get; }
+        public List<FiltroExpresion> Proposiciones { get; }
         public string OperadorLogico { get; }
 
         public ExpresionLogica(string cadena)
         {
-            Proposiciones = new List<ExpressionFilter>();
+            Proposiciones = new List<FiltroExpresion>();
             cadena = ExpresionRegular.EliminarEspacio(cadena);
             var match = ExpresionRegular.ValidarExpresionLogica(cadena); // valida si expresion como >=20 | (>20 && <40)
 

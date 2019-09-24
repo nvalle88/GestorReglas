@@ -7,13 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
-using ExprRegla = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Regla.Regla, bool>>;
-using ExprContrato = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.Contrato, bool>>;
 using ExprBeneficiario = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.Beneficiario, bool>>;
 using ExprBeneficioPlan = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.BeneficiosPlan, bool>>;
-using System.Collections;
-using System.Reflection;
+using ExprContrato = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.Contrato, bool>>;
+using ExprRegla = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Regla.Regla, bool>>;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 {
@@ -65,27 +62,27 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.Region.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Region.Contains(contrato.Region, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.Producto.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Producto.Contains(contrato.Producto, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.CodigoEstado.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.CodigoEstado.Contains(contrato.CodigoEstado);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.CodigoPlan.IsNotNullOrEmpty())
             {
-                var filtros = new List<ExpressionFilter>();
+                var filtros = new List<FiltroExpresion>();
                 regla.CodigoPlan.ForEach(codigo =>
                 {
-                    var filtro = new ExpressionFilter
+                    var filtro = new FiltroExpresion
                     {
                         NombrePropiedad = "CodigoPlan",
                         Valor = ExpresionRegular.EliminarComodin(codigo)
@@ -102,13 +99,15 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 });
 
                 ExprContrato exprOr = ConstruirArbolExpresionOr<Contrato>(filtros);
-                predicado = predicado.And(exprOr);
+                if (exprOr.IsNull())
+                    return null;
+                predicado = predicado.And2(exprOr);
             }
 
             if (regla.Version.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Version.Contains(contrato.Version);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
@@ -122,57 +121,67 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "CoberturaMaxima"; return x; }).ToList();
 
                 ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
-                predicado = predicado.And(exprAnd);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             if (regla.Nivel.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Nivel.Contains(contrato.Nivel);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
             if (regla.DeducibleTotal.IsNotNullOrEmpty())
             {
-                ExprContrato criterio = contrato => contrato.DeducibleTotal == Convert.ToInt32(regla.DeducibleTotal);
-                predicado = predicado.And(criterio);
+                var expresionLogica = new ExpresionLogica(regla.DeducibleTotal);
+                if (!expresionLogica.EsExpresionLogica)
+                    return null;
+
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleTotal"; return x; }).ToList();
+
+                ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             if (regla.TieneImpedimento.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.TieneImpedimento == regla.TieneImpedimento;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.EsMoroso.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.EsMoroso == regla.EsMoroso;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.NumeroEmpresa.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.NumeroEmpresa.Contains(contrato.NumeroEmpresa);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.CodigoSucursal.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.CodigoSucursal.Contains(contrato.CodigoSucursal);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.NumeroLista.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.NumeroLista.Contains(contrato.NumeroLista);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.EsDeducibleAnual.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.EsDeducibleAnual == regla.EsDeducibleAnual;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             return predicado;
@@ -185,69 +194,101 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.RelacionDependiente.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.RelacionDependiente.Contains(beneficiario.RelacionDependiente, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.Genero.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.Genero.Contains(beneficiario.Genero, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
             if (regla.Edad.IsNotNull())
             {
-                ExprBeneficiario criterio = beneficiario => beneficiario.Edad == regla.Edad;
-                predicado = predicado.And(criterio);
+                var expresionLogica = new ExpresionLogica(regla.Edad);
+                if (!expresionLogica.EsExpresionLogica)
+                    return null; // Todo: Eliminar la regla por falsa formación y no aplicar en capa superior.
+
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "Edad"; return x; }).ToList();
+
+                ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
             if (regla.DeducibleCubierto.IsNotNullOrEmpty())
             {
-                ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto == Convert.ToInt32(regla.DeducibleCubierto);
-                predicado = predicado.And(criterio);
+                var expresionLogica = new ExpresionLogica(regla.Edad);
+                if (!expresionLogica.EsExpresionLogica)
+                    return null; // Todo: Eliminar la regla por falsa formación y no aplicar en capa superior.
+
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
+
+                ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             if (regla.EnCarencia.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.EnCarencia == regla.EnCarencia;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
             if (regla.DiasFinCarencia.IsNotNullOrEmpty())
             {
-                ExprBeneficiario criterio = beneficiario => beneficiario.DiasFinCarencia == Convert.ToInt32(regla.DiasFinCarencia);
-                predicado = predicado.And(criterio);
+                var expresionLogica = new ExpresionLogica(regla.Edad);
+                if (!expresionLogica.EsExpresionLogica)
+                    return null; // Todo: Eliminar la regla por falsa formación y no aplicar en capa superior.
+
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
+
+                ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             if (regla.EnCarenciaHospitalaria.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.EnCarenciaHospitalaria == regla.EnCarenciaHospitalaria;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
             if (regla.DiasFinCarenciaHospitalaria.IsNotNullOrEmpty())
             {
-                ExprBeneficiario criterio = beneficiario => beneficiario.DiasFinCarenciaHospitalaria == Convert.ToInt32(regla.DiasFinCarenciaHospitalaria);
-                predicado = predicado.And(criterio);
+                var expresionLogica = new ExpresionLogica(regla.Edad);
+                if (!expresionLogica.EsExpresionLogica)
+                    return null; // Todo: Eliminar la regla por falsa formación y no aplicar en capa superior.
+
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
+
+                ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
+                if (exprAnd.IsNull())
+                    return null;
+                predicado = predicado.And2(exprAnd);
             }
 
             if (regla.BeneficioOda.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.BeneficioOda == regla.BeneficioOda;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.Maternidad.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.Maternidad == regla.Maternidad;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             return predicado;
@@ -261,13 +302,13 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.CodigoBeneficio.IsNotNull())
             {
                 ExprBeneficioPlan criterio = beneficioPlan => regla.CodigoBeneficio.Contains(beneficioPlan.CodigoBeneficio, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             if (regla.EsPorcentaje.IsNotNull())
             {
                 ExprBeneficioPlan criterio = beneficioPlan => beneficioPlan.EsPorcentaje == regla.EsPorcentaje;
-                predicado = predicado.And(criterio);
+                predicado = predicado.And2(criterio);
             }
 
             return predicado;
@@ -313,153 +354,52 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 : true).ToList();
         }
 
-        private static Expression<Func<T, bool>> ConstruirArbolExpresionOr<T>(List<ExpressionFilter> filtros)
+        private static Expression<Func<T, bool>> ConstruirArbolExpresionOr<T>(List<FiltroExpresion> filtros)
         {
             if (filtros.Count == 0)
                 return null;
 
             ParameterExpression param = Expression.Parameter(typeof(T), "t");
-            Expression exp = null;
-
+            Expression exp;
             if (filtros.Count == 1)
             {
-                exp = ExpressionRetriever.GetExpression<T>(param, filtros[0]);
+                exp = GeneradorExpresion.GetExpression<T>(param, filtros[0]);
             }
             else
             {
-                exp = ExpressionRetriever.GetExpression<T>(param, filtros[0]);
+                exp = GeneradorExpresion.GetExpression<T>(param, filtros[0]);
                 for (int i = 1; i < filtros.Count; i++)
                 {
-                    exp = Expression.Or(exp, ExpressionRetriever.GetExpression<T>(param, filtros[i]));
+                    exp = Expression.Or(exp, GeneradorExpresion.GetExpression<T>(param, filtros[i]));
                 }
             }
 
             return Expression.Lambda<Func<T, bool>>(exp, param);
         }
 
-        private static Expression<Func<T, bool>> ConstruirArbolExpresionAnd<T>(List<ExpressionFilter> filters)
+        private static Expression<Func<T, bool>> ConstruirArbolExpresionAnd<T>(List<FiltroExpresion> filters)
         {
             if (filters.Count == 0)
                 return null;
 
             ParameterExpression param = Expression.Parameter(typeof(T), "t");
-            Expression exp = null;
-
+            Expression exp;
             if (filters.Count == 1)
             {
-                exp = ExpressionRetriever.GetExpression<T>(param, filters[0]);
+                exp = GeneradorExpresion.GetExpression<T>(param, filters[0]);
             }
             else
             {
-                exp = ExpressionRetriever.GetExpression<T>(param, filters[0]);
+                exp = GeneradorExpresion.GetExpression<T>(param, filters[0]);
                 for (int i = 1; i < filters.Count; i++)
                 {
-                    exp = Expression.And(exp, ExpressionRetriever.GetExpression<T>(param, filters[i]));
+                    exp = Expression.And(exp, GeneradorExpresion.GetExpression<T>(param, filters[i]));
                 }
             }
 
             return Expression.Lambda<Func<T, bool>>(exp, param);
         }
-
     }
-
-
-    public class ExpressionFilter
-    {
-        public string NombrePropiedad { get; set; }
-        public object Valor { get; set; }
-        public Operador Operador { get; set; }
-
-        public ExpressionFilter()
-        {
-        }
-
-        public ExpressionFilter(string operador, object valor)
-        {
-            switch (operador)
-            {
-                case OperadoresRelacionales.Mayor:
-                    Operador = Operador.Mayor;
-                    break;
-
-                case OperadoresRelacionales.MayorIgual:
-                    Operador = Operador.MayorIgual;
-                    break;
-
-                case OperadoresRelacionales.Menor:
-                    Operador = Operador.Menor;
-                    break;
-
-                case OperadoresRelacionales.MenorIgual:
-                    Operador = Operador.MenorIgual;
-                    break;
-
-                case OperadoresRelacionales.Igual:
-                    Operador = Operador.Igual;
-                    break;
-
-                case OperadoresRelacionales.Diferente:
-                    Operador = Operador.Diferente;
-                    break;
-            }
-            Valor = valor;
-        }
-    }
-
-    public enum Operador
-    {
-        Igual,
-        Menor,
-        MenorIgual,
-        Mayor,
-        MayorIgual,
-        Diferente,
-        Contiene, //for strings  
-        IniciaCon, //for strings  
-        TerminaCon, //for strings  
-        IgualQue // for strings
-    }
-
-    public static class ExpressionRetriever
-    {
-        private static MethodInfo containsMethod = typeof(string).GetMethod("Contains");
-        private static MethodInfo startsWithMethod = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
-        private static MethodInfo endsWithMethod = typeof(string).GetMethod("EndsWith", new Type[] { typeof(string) });
-        private static MethodInfo equalsMethod = typeof(string).GetMethod("Equals", new Type[] { typeof(string) });
-
-        public static Expression GetExpression<T>(ParameterExpression param, ExpressionFilter filter)
-        {
-            MemberExpression member = Expression.Property(param, filter.NombrePropiedad);
-            ConstantExpression constant = Expression.Constant(filter.Valor);
-            switch (filter.Operador)
-            {
-                case Operador.Igual:
-                    return Expression.Equal(member, constant);
-                case Operador.Mayor:
-                    return Expression.GreaterThan(member, constant);
-                case Operador.MayorIgual:
-                    return Expression.GreaterThanOrEqual(member, constant);
-                case Operador.Menor:
-                    return Expression.LessThan(member, constant);
-                case Operador.MenorIgual:
-                    return Expression.LessThanOrEqual(member, constant);
-                case Operador.Diferente:
-                    return Expression.NotEqual(member, constant);
-                case Operador.Contiene:
-                    return Expression.Call(member, containsMethod, constant);
-                case Operador.IniciaCon:
-                    return Expression.Call(member, startsWithMethod, constant);
-                case Operador.TerminaCon:
-                    return Expression.Call(member, endsWithMethod, constant);
-                case Operador.IgualQue:
-                    return Expression.Call(member, equalsMethod, constant);
-                default:
-                    return null;
-            }
-        }
-    }
-
-
 
 
     public static class ConstructorPredicado
