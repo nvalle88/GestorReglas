@@ -4,10 +4,8 @@ using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
 using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
-using Saludsa.UtilidadesRest;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GestorReglaContratoCobertura
 {
@@ -27,105 +25,100 @@ namespace GestorReglaContratoCobertura
 
         public List<Contrato> AplicarReglasContratoCobertura(List<Contrato> listaContratos, int convenio = 0, int aplicacion = 0, int plataforma = 0)
         {
-            if (listaContratos.Count == 0)
+            if (listaContratos.IsNullOrEmpty2())
                 return listaContratos;
-
-            _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma);
-
-            if (_listaReglas.Count == 0)
-                return listaContratos;
-
-            // Creación de constructores para Contrato - Beneficiario - BeneficioPlan
-            var constructorContrato = new GestorReglaConstructorContrato(new Contrato());
-            var directorContrato = new GestorReglaDirectorContrato(constructorContrato);
-            var constructorBeneficiario = new GestorReglaConstructorBeneficiario(new Beneficiario());
-            var directorBeneficiario = new GestorReglaDirectorBeneficiario(constructorBeneficiario);
-            var constructorBeneficioPlan = new GestorReglaConstructorBeneficioPlan(new BeneficiosPlan());
-            var directorBeneficioPlan = new GestorReglaDirectorBeneficioPlan(constructorBeneficioPlan);
 
             // lista de respaldo
-            var listaContratoOriginal = listaContratos.CloneJson();
+            var listaContratoOriginal = listaContratos.Clonar();
 
-            //Variables auxiliares
-            var modificarBeneficiario = false;
-            var modificarContrato = false;
-
-            foreach (var regla in _listaReglas)
+            try
             {
-                try
+                _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma);
+
+                if (_listaReglas.IsNullOrEmpty2())
+                    return listaContratoOriginal;
+
+                // Creación de constructores para Contrato - Beneficiario - BeneficioPlan
+                var constructorContrato = new GestorReglaConstructorContrato(new Contrato());
+                var directorContrato = new GestorReglaDirectorContrato(constructorContrato);
+                var constructorBeneficiario = new GestorReglaConstructorBeneficiario(new Beneficiario());
+                var directorBeneficiario = new GestorReglaDirectorBeneficiario(constructorBeneficiario);
+                var constructorBeneficioPlan = new GestorReglaConstructorBeneficioPlan(new BeneficiosPlan());
+                var directorBeneficioPlan = new GestorReglaDirectorBeneficioPlan(constructorBeneficioPlan);
+
+                //Variables auxiliares
+                var modificarBeneficiario = false;
+                var modificarContrato = false;
+
+                foreach (var regla in _listaReglas)
                 {
-                    var contratosCandidatos = Predicado.ObtenerContratosCandidatos(listaContratos, regla.Entrada.EntradaContrato);
-                    if (contratosCandidatos.IsNotNull2())
+                    try
                     {
-                        throw new Exception();
-                    }
-
-                    foreach (var contrato in contratosCandidatos)
-                    {
-                        regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
-                        var beneficiariosCandidatos = Predicado.ObtenerBeneficiariosCandidatos(contrato.Beneficiarios, regla.Entrada.EntradaBeneficiario);
-
-                        if (beneficiariosCandidatos.IsNull2())
+                        var contratosCandidatos = Predicado.ObtenerContratosCandidatos(listaContratos, regla.Entrada.EntradaContrato);
+                        if (contratosCandidatos.IsNullOrEmpty2())
                         {
                             throw new Exception();
                         }
 
-                        modificarContrato = false;
-
-                        foreach (var beneficiario in beneficiariosCandidatos)
+                        foreach (var contrato in contratosCandidatos)
                         {
-                            if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty2())
+                            regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
+                            var beneficiariosCandidatos = Predicado.ObtenerBeneficiariosCandidatos(contrato.Beneficiarios, regla.Entrada.EntradaBeneficiario);
+                            if (beneficiariosCandidatos.IsNull2())
                             {
-                                modificarBeneficiario = false;
-                                foreach (var reglaBeneficio in regla.Entrada.EntradaBeneficioPlan)
+                                continue;
+                            }
+
+                            foreach (var beneficiario in beneficiariosCandidatos)
+                            {
+                                if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty2())
                                 {
-                                    var beneficiosPlanCandidatos = Predicado.ObtenerBeneficiosPlanCandidatos(beneficiario.BeneficiosPlan, reglaBeneficio.EntradaBeneficioPlan);
-                                    if (beneficiosPlanCandidatos.IsNull2())
+                                    modificarBeneficiario = false;
+                                    foreach (var reglaBeneficio in regla.Entrada.EntradaBeneficioPlan)
                                     {
-                                        throw new Exception();
-                                    }
-                                   
-                                    foreach (var beneficioPlan in beneficiosPlanCandidatos)
-                                    {
-                                        modificarBeneficiario = true;
-                                        constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
-                                        directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);
+                                        var beneficiosPlanCandidatos = Predicado.ObtenerBeneficiosPlanCandidatos(beneficiario.BeneficiosPlan, reglaBeneficio.EntradaBeneficioPlan);
+
+                                        foreach (var beneficioPlan in beneficiosPlanCandidatos)
+                                        {
+                                            modificarBeneficiario = true;
+                                            constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
+                                            directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);
+                                        }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
-                                modificarContrato = true;
-                            }
+                                else
+                                {
+                                    constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                    directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                    modificarContrato = true;
+                                }
 
-                            if (modificarBeneficiario)
-                            {
-                                constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
-                                modificarContrato = true;
+                                if (modificarBeneficiario)
+                                {
+                                    constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                    directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                    modificarContrato = true;
+                                }
                             }
-                        }
-                        if (beneficiariosCandidatos.IsNullOrEmpty())
-                        {
-                            constructorContrato.IncorporarContrato(contrato);
-                            directorContrato.ConstruirContratoConReglas(regla.Salida);
-                        }
-                        if (modificarContrato)
-                        {
-                            constructorContrato.IncorporarContrato(contrato);
-                            directorContrato.ConstruirContratoConReglas(regla.Salida);
+                            if (beneficiariosCandidatos.IsNullOrEmpty2() || modificarContrato)
+                            {
+                                constructorContrato.IncorporarContrato(contrato);
+                                directorContrato.ConstruirContratoConReglas(regla.Salida);
+                            }
                         }
                     }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
                 }
-                catch (System.Exception)
-                {
-                    continue;
-                }
-            }
 
-            return listaContratos;
+                return listaContratos;
+            }
+            catch (Exception)
+            {
+                return listaContratoOriginal;
+            }
         }
     }
 }

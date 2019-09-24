@@ -1,6 +1,4 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
-
-namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
+﻿namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
     public class Proposicion
     {

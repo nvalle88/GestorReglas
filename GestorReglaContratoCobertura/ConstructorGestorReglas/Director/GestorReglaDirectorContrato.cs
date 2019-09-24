@@ -1,6 +1,6 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
+using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Regla;
-using Saludsa.UtilidadesRest;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 {
@@ -15,10 +15,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 
         public void ConstruirContratoConReglas(Salida salida)
         {
-            if (salida.NombrePlan.IsNotNull())
+            if (salida.NombrePlan.IsNotNull2())
                 _gestorReglaConstructorContrato.AplicarReglaCambioNombrePlan(salida.NombrePlan);
 
-            if (salida.ObservacionesContrato.IsNotNull())
+            if (salida.ObservacionesContrato.IsNotNull2())
                 _gestorReglaConstructorContrato.AplicarReglaCambioObservacionesContrato(salida.ObservacionesContrato);
         }
     }

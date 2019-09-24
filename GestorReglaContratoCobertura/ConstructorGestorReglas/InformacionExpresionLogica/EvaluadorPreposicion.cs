@@ -1,8 +1,7 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System;
-
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {

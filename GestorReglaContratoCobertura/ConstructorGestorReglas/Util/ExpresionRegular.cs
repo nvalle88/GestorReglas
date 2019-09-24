@@ -12,8 +12,6 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         private const string patronEliminarEspacio = @"\s";
         private const string patronExpresionLogica = @"^(>|>=|<|<=|=|!=)(\d+)((&&|\|\||!)(>|>=|<|<=|=|!=)(\d+))?$";
 
-
-
         #region Expresiones de reemplazo
         /// <summary>
         /// Elimina el caracter comodín * de la cadena que se envíe

@@ -80,7 +80,6 @@ namespace UnitTestGestorReglas
             Assert.AreEqual("Producto Individual - Ideal 4d Sierra", listaContratos.FirstOrDefault().NombrePlan);
         }
 
-
         [TestMethod]
         public void ValidarReglaCambioNombrePlanContratoINDBusquedaCoberturaMaxima()
         {

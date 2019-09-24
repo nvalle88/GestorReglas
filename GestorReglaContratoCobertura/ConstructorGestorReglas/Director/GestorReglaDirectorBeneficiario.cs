@@ -1,6 +1,6 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
+using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Regla;
-using Saludsa.UtilidadesRest;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 {
@@ -15,7 +15,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 
         public void ConstruirBeneficiarioConReglas(Salida salida)
         {
-            if (salida.Carencia.IsNotNull())
+            if (salida.Carencia.IsNotNull2())
                 _gestorReglaConstructorBeneficiario.AplicarReglaCarencia(salida.Carencia);
         }
     }

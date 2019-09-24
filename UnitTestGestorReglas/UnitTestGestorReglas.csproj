@@ -54,9 +54,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
-    <Reference Include="UtilidadesRest, Version=1.5.5.0, Culture=neutral, PublicKeyToken=b28c39a42145c4a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\UtilidadesRest.1.5.5\lib\net461\UtilidadesRest.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatosPruebaContrato.cs" />

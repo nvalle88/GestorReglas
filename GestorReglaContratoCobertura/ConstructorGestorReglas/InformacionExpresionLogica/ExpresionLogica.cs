@@ -14,7 +14,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpres
         {
             Proposiciones = new List<FiltroExpresion>();
             cadena = ExpresionRegular.EliminarEspacio(cadena);
-            var match = ExpresionRegular.ValidarExpresionLogica(cadena); // valida si expresion como >=20 | (>20 && <40)
+            var match = ExpresionRegular.ValidarExpresionLogica(cadena);
 
             EsExpresionLogica = match.Success;
 

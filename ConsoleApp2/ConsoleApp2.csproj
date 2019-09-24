@@ -48,9 +48,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UtilidadesRest, Version=1.5.5.0, Culture=neutral, PublicKeyToken=b28c39a42145c4a6, processorArchitecture=MSIL">
-      <HintPath>..\packages\UtilidadesRest.1.5.5\lib\net461\UtilidadesRest.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
