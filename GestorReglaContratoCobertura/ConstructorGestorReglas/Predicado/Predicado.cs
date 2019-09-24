@@ -275,10 +275,11 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
         internal static List<Regla> ObtenerReglasCandidatas(List<Regla> reglas, int convenio, int aplicacion, int plataforma)
         {
-            return reglas
-                .AsQueryable()
-                .Where(GeneraPredicadoRegla(convenio, aplicacion, plataforma))
-                .ToList();
+            return reglas.Where(regla => regla.EstadoActivo
+                && Validaciones.ValidarFechaRegla(regla)
+                && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
+                && regla.Aplicacion.IsNotNullOrEmpty()  ? regla.Aplicacion.Contains(aplicacion) : true
+                && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true).ToList();;
         }
 
         internal static List<Contrato> ObtenerContratosCandidatos(List<Contrato> contratos, ReglaEntradaContrato regla)
