@@ -47,7 +47,7 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
     {
         public List<string> RelacionDependiente { get; set; }
         public List<string> Genero { get; set; }
-        public string Edad { get; set; }
+        public int? Edad { get; set; }
         public string DeducibleCubierto { get; set; }
         public bool? EnCarencia { get; set; }
         public string DiasFinCarencia { get; set; }

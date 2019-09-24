@@ -1,13 +1,40 @@
-﻿namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
+
+namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
     public class Proposicion
     {
-        public string Operador { get; set; }
+        public Operador Operador { get; set; }
         public double Valor { get; set; }
 
         public Proposicion(string operador, string valor)
         {
-            Operador = operador;
+            switch (operador)
+            {
+                case OperadoresRelacionales.Mayor:
+                    Operador = Operador.Mayor;
+                    break;
+
+                case OperadoresRelacionales.MayorIgual:
+                    Operador = Operador.MayorIgual;
+                    break;
+
+                case OperadoresRelacionales.Menor:
+                    Operador = Operador.Menor;
+                    break;
+
+                case OperadoresRelacionales.MenorIgual:
+                    Operador = Operador.MenorIgual;
+                    break;
+
+                case OperadoresRelacionales.Igual:
+                    Operador = Operador.Igual;
+                    break;
+
+                case OperadoresRelacionales.Diferente:
+                    Operador = Operador.Diferente;
+                    break;
+            }
             Valor = double.Parse(valor);
         }
     }
