@@ -40,11 +40,8 @@ namespace GestorReglaContratoCobertura
 
                 // Creación de constructores para Contrato - Beneficiario - BeneficioPlan
                 var constructorContrato = new GestorReglaConstructorContrato(new Contrato());
-                var directorContrato = new GestorReglaDirectorContrato(constructorContrato);
                 var constructorBeneficiario = new GestorReglaConstructorBeneficiario(new Beneficiario());
-                var directorBeneficiario = new GestorReglaDirectorBeneficiario(constructorBeneficiario);
                 var constructorBeneficioPlan = new GestorReglaConstructorBeneficioPlan(new BeneficiosPlan());
-                var directorBeneficioPlan = new GestorReglaDirectorBeneficioPlan(constructorBeneficioPlan);
 
                 //Variables auxiliares
                 var modificarBeneficiario = false;
@@ -82,28 +79,28 @@ namespace GestorReglaContratoCobertura
                                         {
                                             modificarBeneficiario = true;
                                             constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
-                                            directorBeneficioPlan.ConstruirBeneficioPlanConReglas(reglaBeneficio.SalidaBeneficioPlan);
+                                            constructorBeneficioPlan.AplicarRegla(reglaBeneficio.SalidaBeneficioPlan);
                                         }
                                     }
                                 }
                                 else
                                 {
                                     constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                    directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                    constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
                                     modificarContrato = true;
                                 }
 
                                 if (modificarBeneficiario)
                                 {
                                     constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                    directorBeneficiario.ConstruirBeneficiarioConReglas(regla.Salida);
+                                    constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
                                     modificarContrato = true;
                                 }
                             }
                             if (beneficiariosCandidatos.IsNullOrEmpty2() || modificarContrato)
                             {
                                 constructorContrato.IncorporarContrato(contrato);
-                                directorContrato.ConstruirContratoConReglas(regla.Salida);
+                                constructorContrato.AplicarRegla(regla.Salida.SalidaContrato);
                             }
                         }
                     }

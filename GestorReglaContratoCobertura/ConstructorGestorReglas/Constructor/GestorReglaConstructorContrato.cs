@@ -1,7 +1,8 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
-using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Director;
+using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
 using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
+using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 {
@@ -14,11 +15,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
             _contrato = contrato;
         }
 
-        public void AplicarReglaCambioNombrePlan(NombrePlan nombrePlan)
-            => _contrato.NombrePlan = Utilidades.ProcesarTexto(nombrePlan.Texto, _contrato.NombrePlan, nombrePlan.Posicion);
-
-        public void AplicarReglaCambioObservacionesContrato(ObservacionesContrato observacionesContrato)
-            => _contrato.Observaciones = Utilidades.ProcesarTexto(observacionesContrato.Texto, _contrato.Observaciones, observacionesContrato.Posicion);
+        public void AplicarRegla(List<SalidaGenerica> salida)
+        {
+            BuscarConReflexion.Buscar(_contrato, salida);
+        }
 
         public void IncorporarContrato(Contrato contrato)
         {

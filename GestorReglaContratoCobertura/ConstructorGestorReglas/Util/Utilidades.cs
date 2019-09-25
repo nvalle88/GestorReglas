@@ -1,5 +1,4 @@
 ﻿using GestorReglaContratoCobertura.Extensores;
-using GestorReglaContratoCobertura.Modelos.Regla;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
@@ -8,17 +7,14 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
         {
             if (posicion.IsNull2())
-            {
                 return textoRegla;
-            }
+
             switch (posicion)
             {
                 case Posicion.Pre:
-                    return $"{textoRegla}{textoContrato}";
+                    return $"{textoRegla} {textoContrato}";
                 case Posicion.Post:
-                    return $"{textoContrato}{textoRegla}";
-                case Posicion.Sobreescribir:
-                    return textoRegla;
+                    return $"{textoContrato} {textoRegla}";
                 default:
                     return textoContrato;
             }
@@ -34,7 +30,6 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     public enum Posicion
     {
         Pre,
-        Post,
-        Sobreescribir
+        Post
     }
 }
