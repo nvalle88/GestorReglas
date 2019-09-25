@@ -1,6 +1,8 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Director;
+using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
 using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
+using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 {
@@ -13,9 +15,9 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
             _beneficioPlan = beneficioPlan;
         }
 
-        public void AplicarReglaCodigoBeneficioPlan(SalidaBeneficioPlan beneficioPlan)
+        public void AplicarRegla(List<SalidaGenerica> salida)
         {
-            _beneficioPlan.Valor = beneficioPlan.Valor;
+            BuscarConReflexion.Buscar(_beneficioPlan, salida);
         }
 
         public void IncorporarBeneficioPlan(BeneficiosPlan beneficiosPlan)

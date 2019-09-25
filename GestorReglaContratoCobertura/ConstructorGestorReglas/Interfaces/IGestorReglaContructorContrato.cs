@@ -1,12 +1,12 @@
 ﻿using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
+using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces
 {
     public interface IGestorReglaContructorContrato
     {
-        void AplicarReglaCambioNombrePlan(NombrePlan nombrePlan);
-        void AplicarReglaCambioObservacionesContrato(ObservacionesContrato observacionesContrato);
+        void AplicarRegla(List<SalidaGenerica> salida);
         void IncorporarContrato(Contrato contrato);
     }
 }
