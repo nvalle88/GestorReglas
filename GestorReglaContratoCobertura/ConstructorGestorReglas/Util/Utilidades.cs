@@ -1,11 +1,16 @@
-﻿using GestorReglaContratoCobertura.Modelos.Regla;
+﻿using GestorReglaContratoCobertura.Extensores;
+using GestorReglaContratoCobertura.Modelos.Regla;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
     public static class Utilidades
     {
-        public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion posicion)
+        public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
         {
+            if (posicion.IsNull2())
+            {
+                return textoRegla;
+            }
             switch (posicion)
             {
                 case Posicion.Pre:

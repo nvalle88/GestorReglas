@@ -20,6 +20,9 @@ namespace GestorReglaContratoCobertura.Extensores
         public static bool ValidarPrimitivo(this Type type)
             => type == VarString || type == VarInt16 || type == VarInt32 || type == VarInt64 || type == VarBool;
 
+        public static bool EsString(this Type type)
+           => type == VarString;
+
         public static bool IsNotNull2(this object obj)
             => obj != null;
 
