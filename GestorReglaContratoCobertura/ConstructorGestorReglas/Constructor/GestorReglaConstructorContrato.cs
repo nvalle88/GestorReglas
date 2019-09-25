@@ -17,7 +17,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 
         public void AplicarRegla(List<SalidaGenerica> salida)
         {
-            BuscarConReflexion.Buscar(_contrato, salida);
+            AplicarReglaSalisa.Buscar(_contrato, salida);
         }
 
         public void IncorporarContrato(Contrato contrato)

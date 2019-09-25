@@ -17,7 +17,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 
         public void AplicarRegla(List<SalidaGenerica> salida)
         {
-            BuscarConReflexion.Buscar(_beneficioPlan, salida);
+            AplicarReglaSalisa.Buscar(_beneficioPlan, salida);
         }
 
         public void IncorporarBeneficioPlan(BeneficiosPlan beneficiosPlan)

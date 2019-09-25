@@ -12,16 +12,11 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     {
         public static void Inicio(object objeto, List<SalidaGenerica> salida)
         {
-            if (objeto == null || salida == null)
-            {
-                throw new ArgumentNullException(nameof(objeto));
-            }
-
             var propiedades = objeto.GetType().GetProperties();
             foreach (var propiedad in propiedades)
             {
                 var s = salida.FirstOrDefault(x => x.NombrePropiedad == propiedad.Name);
-                if (s.IsNotNull2())
+                if (s.IsNotNull())
                 {
                     try
                     {

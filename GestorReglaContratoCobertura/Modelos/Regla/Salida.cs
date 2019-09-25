@@ -33,14 +33,6 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         #endregion Salidas para Beneficiario
     }
 
-
-    public class SalidaGenerica
-    {
-        public string NombrePropiedad { get; set; }
-        public string Valor { get; set; }
-        public Posicion? Posicion { get; set; }
-    }
-
     #region Clases salida Contrato
     public class NombrePlan : CambioTexto
     {

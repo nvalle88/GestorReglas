@@ -92,7 +92,7 @@ namespace UnitTestExtensores
         public void IsNullOrEmpty_StringNull()
         {
             string obj = null;
-            var validacion = obj.IsNullOrEmpty2();
+            var validacion = obj.IsNullOrEmpty();
             Assert.IsTrue(validacion);
         }
 
@@ -100,7 +100,7 @@ namespace UnitTestExtensores
         public void IsNullOrEmpty_StringEmpty()
         {
             string obj = string.Empty;
-            var validacion = obj.IsNullOrEmpty2();
+            var validacion = obj.IsNullOrEmpty();
             Assert.IsTrue(validacion);
         }
 
@@ -108,7 +108,7 @@ namespace UnitTestExtensores
         public void IsNullOrEmpty_ListNull()
         {
             List<int> obj = null;
-            var validacion = obj.IsNullOrEmpty2();
+            var validacion = obj.IsNullOrEmpty();
             Assert.IsTrue(validacion);
         }
 
@@ -116,7 +116,7 @@ namespace UnitTestExtensores
         public void IsNullOrEmpty_ListEmpty()
         {
             List<int> obj = new List<int>();
-            var validacion = obj.IsNullOrEmpty2();
+            var validacion = obj.IsNullOrEmpty();
             Assert.IsTrue(validacion);
         }
         #endregion IsNullOrEmpty
@@ -127,7 +127,7 @@ namespace UnitTestExtensores
         public void IsNotNull_StringNull()
         {
             string obj = null;
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsFalse(validacion);
         }
 
@@ -135,7 +135,7 @@ namespace UnitTestExtensores
         public void IsNotNull_ObjetoNull()
         {
             object obj = null;
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsFalse(validacion);
         }
 
@@ -143,7 +143,7 @@ namespace UnitTestExtensores
         public void IsNotNull_ListNull()
         {
             List<int> obj = null;
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsFalse(validacion);
         }
 
@@ -151,7 +151,7 @@ namespace UnitTestExtensores
         public void IsNotNull_ClassNull()
         {
             PropClass obj = null;
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsFalse(validacion);
         }
 
@@ -159,7 +159,7 @@ namespace UnitTestExtensores
         public void IsNotNull_ObjetoString()
         {
             object obj = "abc";
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsTrue(validacion);
         }
 
@@ -167,7 +167,7 @@ namespace UnitTestExtensores
         public void IsNotNull_ObjetoInt()
         {
             object obj = 12;
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsTrue(validacion);
         }
 
@@ -179,7 +179,7 @@ namespace UnitTestExtensores
                 Prop1 = "abc",
                 Prop2 = 123
             };
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsTrue(validacion);
         }
 
@@ -191,7 +191,7 @@ namespace UnitTestExtensores
                 Prop1 = "abc",
                 Prop2 = 123
             };
-            var validacion = obj.IsNotNull2();
+            var validacion = obj.IsNotNull();
             Assert.IsTrue(validacion);
         }
         #endregion IsNotNull
@@ -201,7 +201,7 @@ namespace UnitTestExtensores
         public void IsNotNullOrEmpty_StringNull()
         {
             string obj = null;
-            var validacion = obj.IsNotNullOrEmpty2();
+            var validacion = obj.IsNotNullOrEmpty();
             Assert.IsFalse(validacion);
         }
 
@@ -209,7 +209,7 @@ namespace UnitTestExtensores
         public void IsNotNullOrEmpty_StringEmpty()
         {
             string obj = string.Empty;
-            var validacion = obj.IsNotNullOrEmpty2();
+            var validacion = obj.IsNotNullOrEmpty();
             Assert.IsFalse(validacion);
         }
 
@@ -217,7 +217,7 @@ namespace UnitTestExtensores
         public void IsNotNullOrEmpty_ListNull()
         {
             List<int> obj = null;
-            var validacion = obj.IsNotNullOrEmpty2();
+            var validacion = obj.IsNotNullOrEmpty();
             Assert.IsFalse(validacion);
         }
 
@@ -225,7 +225,7 @@ namespace UnitTestExtensores
         public void IsNotNullOrEmpty_ListEmpty()
         {
             List<int> obj = new List<int>();
-            var validacion = obj.IsNotNullOrEmpty2();
+            var validacion = obj.IsNotNullOrEmpty();
             Assert.IsFalse(validacion);
         }
         #endregion IsNullOrEmpty

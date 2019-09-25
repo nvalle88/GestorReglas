@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 
 namespace GestorReglaContratoCobertura.Extensores
 {
@@ -23,22 +19,22 @@ namespace GestorReglaContratoCobertura.Extensores
         public static bool EsString(this Type type)
            => type == VarString;
 
-        public static bool IsNotNull2(this object obj)
+        public static bool IsNotNull(this object obj)
             => obj != null;
 
-        public static bool IsNotNullOrEmpty2(this string obj)
+        public static bool IsNotNullOrEmpty(this string obj)
             => obj == null ? false : obj != string.Empty;
 
-        public static bool IsNotNullOrEmpty2<T>(this ICollection<T> obj)
+        public static bool IsNotNullOrEmpty<T>(this ICollection<T> obj)
             => obj == null ? false : obj.Count > 0;
 
         public static bool IsNull2(this object obj)
             => obj == null;
 
-        public static bool IsNullOrEmpty2(this string obj)
+        public static bool IsNullOrEmpty(this string obj)
             => obj == null || obj == string.Empty;
 
-        public static bool IsNullOrEmpty2<T>(this ICollection<T> obj)
+        public static bool IsNullOrEmpty<T>(this ICollection<T> obj)
             => obj == null || obj.Count == 0;
 
         public static T Clonar<T>(this T source)

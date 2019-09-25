@@ -25,7 +25,7 @@ namespace GestorReglaContratoCobertura
 
         public List<Contrato> AplicarReglasContratoCobertura(List<Contrato> listaContratos, int convenio = 0, int aplicacion = 0, int plataforma = 0)
         {
-            if (listaContratos.IsNullOrEmpty2())
+            if (listaContratos.IsNullOrEmpty())
                 return listaContratos;
 
             // lista de respaldo
@@ -35,7 +35,7 @@ namespace GestorReglaContratoCobertura
             {
                 _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma);
 
-                if (_listaReglas.IsNullOrEmpty2())
+                if (_listaReglas.IsNullOrEmpty())
                     return listaContratoOriginal;
 
                 // Creación de constructores para Contrato - Beneficiario - BeneficioPlan
@@ -52,7 +52,7 @@ namespace GestorReglaContratoCobertura
                     try
                     {
                         var contratosCandidatos = Predicado.ObtenerContratosCandidatos(listaContratos, regla.Entrada.EntradaContrato);
-                        if (contratosCandidatos.IsNullOrEmpty2())
+                        if (contratosCandidatos.IsNullOrEmpty())
                         {
                             throw new Exception();
                         }
@@ -68,7 +68,7 @@ namespace GestorReglaContratoCobertura
 
                             foreach (var beneficiario in beneficiariosCandidatos)
                             {
-                                if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty2())
+                                if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty())
                                 {
                                     modificarBeneficiario = false;
                                     foreach (var reglaBeneficio in regla.Entrada.EntradaBeneficioPlan)
@@ -97,7 +97,7 @@ namespace GestorReglaContratoCobertura
                                     modificarContrato = true;
                                 }
                             }
-                            if (beneficiariosCandidatos.IsNullOrEmpty2() || modificarContrato)
+                            if (beneficiariosCandidatos.IsNullOrEmpty() || modificarContrato)
                             {
                                 constructorContrato.IncorporarContrato(contrato);
                                 constructorContrato.AplicarRegla(regla.Salida.SalidaContrato);

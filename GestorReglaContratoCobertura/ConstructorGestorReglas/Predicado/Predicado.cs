@@ -59,25 +59,25 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             ExprContrato predicado = ConstructorPredicado.True<Contrato>();
 
-            if (regla.Region.IsNotNullOrEmpty2())
+            if (regla.Region.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Region.Contains(contrato.Region, StringComparison.InvariantCultureIgnoreCase);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.Producto.IsNotNullOrEmpty2())
+            if (regla.Producto.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Producto.Contains(contrato.Producto, StringComparison.InvariantCultureIgnoreCase);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.CodigoEstado.IsNotNullOrEmpty2())
+            if (regla.CodigoEstado.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.CodigoEstado.Contains(contrato.CodigoEstado);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.CodigoPlan.IsNotNullOrEmpty2())
+            if (regla.CodigoPlan.IsNotNullOrEmpty())
             {
                 var filtros = new List<FiltroExpresion>();
                 regla.CodigoPlan.ForEach(codigo =>
@@ -104,7 +104,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprOr);
             }
 
-            if (regla.Version.IsNotNullOrEmpty2())
+            if (regla.Version.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Version.Contains(contrato.Version);
                 predicado = predicado.And2(criterio);
@@ -112,7 +112,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo >1000 && <5000
-            if (regla.CoberturaMaxima.IsNotNullOrEmpty2())
+            if (regla.CoberturaMaxima.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.CoberturaMaxima);
                 if (!expresionLogica.EsExpresionLogica)
@@ -126,7 +126,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprAnd);
             }
 
-            if (regla.Nivel.IsNotNullOrEmpty2())
+            if (regla.Nivel.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Nivel.Contains(contrato.Nivel);
                 predicado = predicado.And2(criterio);
@@ -134,7 +134,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
-            if (regla.DeducibleTotal.IsNotNullOrEmpty2())
+            if (regla.DeducibleTotal.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.DeducibleTotal);
                 if (!expresionLogica.EsExpresionLogica)
@@ -148,37 +148,37 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprAnd);
             }
 
-            if (regla.TieneImpedimento.IsNotNull2())
+            if (regla.TieneImpedimento.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.TieneImpedimento == regla.TieneImpedimento;
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.EsMoroso.IsNotNull2())
+            if (regla.EsMoroso.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.EsMoroso == regla.EsMoroso;
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.NumeroEmpresa.IsNotNullOrEmpty2())
+            if (regla.NumeroEmpresa.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.NumeroEmpresa.Contains(contrato.NumeroEmpresa);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.CodigoSucursal.IsNotNullOrEmpty2())
+            if (regla.CodigoSucursal.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.CodigoSucursal.Contains(contrato.CodigoSucursal);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.NumeroLista.IsNotNullOrEmpty2())
+            if (regla.NumeroLista.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.NumeroLista.Contains(contrato.NumeroLista);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.EsDeducibleAnual.IsNotNull2())
+            if (regla.EsDeducibleAnual.IsNotNull())
             {
                 ExprContrato criterio = contrato => contrato.EsDeducibleAnual == regla.EsDeducibleAnual;
                 predicado = predicado.And2(criterio);
@@ -191,13 +191,13 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             ExprBeneficiario predicado = ConstructorPredicado.True<Beneficiario>();
 
-            if (regla.RelacionDependiente.IsNotNullOrEmpty2())
+            if (regla.RelacionDependiente.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.RelacionDependiente.Contains(beneficiario.RelacionDependiente, StringComparison.InvariantCultureIgnoreCase);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.Genero.IsNotNullOrEmpty2())
+            if (regla.Genero.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.Genero.Contains(beneficiario.Genero, StringComparison.InvariantCultureIgnoreCase);
                 predicado = predicado.And2(criterio);
@@ -205,7 +205,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
-            if (regla.Edad.IsNotNull2())
+            if (regla.Edad.IsNotNull())
             {
                 var expresionLogica = new ExpresionLogica(regla.Edad);
                 if (!expresionLogica.EsExpresionLogica)
@@ -221,7 +221,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
-            if (regla.DeducibleCubierto.IsNotNullOrEmpty2())
+            if (regla.DeducibleCubierto.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.Edad);
                 if (!expresionLogica.EsExpresionLogica)
@@ -235,7 +235,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprAnd);
             }
 
-            if (regla.EnCarencia.IsNotNull2())
+            if (regla.EnCarencia.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.EnCarencia == regla.EnCarencia;
                 predicado = predicado.And2(criterio);
@@ -243,7 +243,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
-            if (regla.DiasFinCarencia.IsNotNullOrEmpty2())
+            if (regla.DiasFinCarencia.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.Edad);
                 if (!expresionLogica.EsExpresionLogica)
@@ -257,7 +257,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprAnd);
             }
 
-            if (regla.EnCarenciaHospitalaria.IsNotNull2())
+            if (regla.EnCarenciaHospitalaria.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.EnCarenciaHospitalaria == regla.EnCarenciaHospitalaria;
                 predicado = predicado.And2(criterio);
@@ -265,7 +265,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             // Todo: Crear la búsqueda evaluando expresión lógica
             // Ejemplo > 1000 && <5000
-            if (regla.DiasFinCarenciaHospitalaria.IsNotNullOrEmpty2())
+            if (regla.DiasFinCarenciaHospitalaria.IsNotNullOrEmpty())
             {
                 var expresionLogica = new ExpresionLogica(regla.Edad);
                 if (!expresionLogica.EsExpresionLogica)
@@ -279,13 +279,13 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And2(exprAnd);
             }
 
-            if (regla.BeneficioOda.IsNotNull2())
+            if (regla.BeneficioOda.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.BeneficioOda == regla.BeneficioOda;
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.Maternidad.IsNotNull2())
+            if (regla.Maternidad.IsNotNull())
             {
                 ExprBeneficiario criterio = beneficiario => beneficiario.Maternidad == regla.Maternidad;
                 predicado = predicado.And2(criterio);
@@ -299,13 +299,13 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             ExprBeneficioPlan predicado = ConstructorPredicado.True<BeneficiosPlan>();
 
-            if (regla.CodigoBeneficio.IsNotNull2())
+            if (regla.CodigoBeneficio.IsNotNull())
             {
                 ExprBeneficioPlan criterio = beneficioPlan => regla.CodigoBeneficio.Contains(beneficioPlan.CodigoBeneficio, StringComparison.InvariantCultureIgnoreCase);
                 predicado = predicado.And2(criterio);
             }
 
-            if (regla.EsPorcentaje.IsNotNull2())
+            if (regla.EsPorcentaje.IsNotNull())
             {
                 ExprBeneficioPlan criterio = beneficioPlan => beneficioPlan.EsPorcentaje == regla.EsPorcentaje;
                 predicado = predicado.And2(criterio);
@@ -321,9 +321,9 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             {
                 if (regla.EstadoActivo 
                     &&  Validaciones.ValidarFechaRegla(regla) 
-                    && regla.Convenio.IsNotNullOrEmpty2() ? regla.Convenio.Contains(convenio) : true 
-                    && regla.Aplicacion.IsNotNullOrEmpty2() ? regla.Aplicacion.Contains(aplicacion) : true
-                    && regla.Plataforma.IsNotNullOrEmpty2() ? regla.Plataforma.Contains(plataforma) : true)
+                    && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true 
+                    && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
+                    && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true)
                 {
                     listaSalida.Add(regla);
                 }
@@ -353,12 +353,12 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         internal static List<BeneficiosPlan> ObtenerBeneficiosPlanCandidatos(List<BeneficiosPlan> beneficiosPlan, EntradaBeneficioPlan regla)
         {
             return beneficiosPlan.Where(bp =>
-            regla.CodigoBeneficio.IsNotNullOrEmpty2()
+            regla.CodigoBeneficio.IsNotNullOrEmpty()
                 ? regla.CodigoBeneficio.Contains(bp.CodigoBeneficio, StringComparison.InvariantCultureIgnoreCase)
                 : true
             &&
 
-            regla.EsPorcentaje.IsNotNull2()
+            regla.EsPorcentaje.IsNotNull()
                 ? bp.EsPorcentaje == regla.EsPorcentaje
                 : true).ToList();
         }

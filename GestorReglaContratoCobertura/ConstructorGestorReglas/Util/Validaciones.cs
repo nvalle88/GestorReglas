@@ -10,15 +10,15 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         {
             try
             {
-                if (regla.FechaInicioRegla.IsNotNull2() && regla.FechaFinRegla.IsNull2())
+                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNull2())
                     return DateTime.Now.Date >= regla.FechaInicioRegla.Value.Date;
 
 
-                if (regla.FechaInicioRegla.IsNull2() && regla.FechaFinRegla.IsNotNull2())
+                if (regla.FechaInicioRegla.IsNull2() && regla.FechaFinRegla.IsNotNull())
                     return DateTime.Now.Date <= regla.FechaFinRegla.Value.Date;
 
 
-                if (regla.FechaInicioRegla.IsNotNull2() && regla.FechaFinRegla.IsNotNull2())
+                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNotNull())
                 {
                     var fechaActual = DateTime.Now.Date;
                     return (fechaActual >= regla.FechaInicioRegla.Value.Date) && (fechaActual <= regla.FechaFinRegla.Value.Date);
