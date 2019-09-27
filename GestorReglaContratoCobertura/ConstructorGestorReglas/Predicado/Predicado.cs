@@ -298,12 +298,6 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And(criterio);
             }
 
-            if (regla.SuperaDeducible.IsNotNull())
-            {
-                ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto == regla.DeducibleTotal;
-                predicado = predicado.And(criterio);
-            }
-
             return predicado;
         }
 
@@ -332,9 +326,9 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             var listaSalida = new List<Regla>();
             foreach (var regla in reglas)
             {
-                if (regla.EstadoActivo
-                    && Validaciones.ValidarFechaRegla(regla)
-                    && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
+                if (regla.EstadoActivo 
+                    &&  Validaciones.ValidarFechaRegla(regla) 
+                    && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true 
                     && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
                     && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true)
                 {

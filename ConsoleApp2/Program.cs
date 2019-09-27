@@ -1,11 +1,9 @@
 ﻿using GestorReglaContratoCobertura;
 using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using UnitTestGestorReglas;
 
@@ -29,9 +27,9 @@ namespace ConsoleApp2
 
         public static List<Regla> InicioRegla()
         {
-            var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
+            var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionDesconocidaIND();
             listaReglas.AddRange(DatosPruebaRegla.ReglaCambioObservacionIND());
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioBeneficiarioContrato());
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioObservacionPosicionDesconocidaIND());
             listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaxima());
             listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaximaMayorIgualValor());
             listaReglas.AddRange(DatosPruebaRegla.ReglaCodigoPlan());
