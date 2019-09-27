@@ -1,4 +1,6 @@
 ﻿using GestorReglaContratoCobertura.Extensores;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
@@ -6,14 +8,14 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     {
         public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
         {
-            if (posicion.IsNull2())
+            if (posicion.IsNull())
                 return textoRegla;
 
             switch (posicion)
             {
                 case Posicion.Pre:
                     return $"{textoRegla} {textoContrato}";
-                case Posicion.Post:
+                case Posicion.Pos:
                     return $"{textoContrato} {textoRegla}";
                 default:
                     return textoContrato;
@@ -27,9 +29,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         public Posicion Posicion { get; set; }
     }
 
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Posicion
     {
         Pre,
-        Post
+        Pos
     }
 }

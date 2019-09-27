@@ -61,7 +61,7 @@ namespace GestorReglaContratoCobertura
                         {
                             regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
                             var beneficiariosCandidatos = Predicado.ObtenerBeneficiariosCandidatos(contrato.Beneficiarios, regla.Entrada.EntradaBeneficiario);
-                            if (beneficiariosCandidatos.IsNull2())
+                            if (beneficiariosCandidatos.IsNull())
                             {
                                 continue;
                             }

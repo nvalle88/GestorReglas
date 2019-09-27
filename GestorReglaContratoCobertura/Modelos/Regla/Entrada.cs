@@ -38,7 +38,9 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public string DiasFinCarenciaHospitalaria { get; set; }
         public bool? BeneficioOda { get; set; }
         public bool? Maternidad { get; set; }
+        public bool? SuperaDeducible { get; set; }
         // Propiedad para recuperar deducible del contrato
         public double DeducibleTotal { get; set; }
-    }    
+
+    }
 }

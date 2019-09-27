@@ -13,7 +13,7 @@ namespace ConsoleApp2
             var aplicacion = 0;
             var plataforma = 0;
             var listaContratos = DatosPruebaContrato.ContratoIND();
-            var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
+            var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionPreIND();
 
             var gestorReglas = new GestorReglaContrato(listaReglas);
             listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);

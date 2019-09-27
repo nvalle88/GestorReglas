@@ -10,11 +10,11 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         {
             try
             {
-                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNull2())
+                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNull())
                     return DateTime.Now.Date >= regla.FechaInicioRegla.Value.Date;
 
 
-                if (regla.FechaInicioRegla.IsNull2() && regla.FechaFinRegla.IsNotNull())
+                if (regla.FechaInicioRegla.IsNull() && regla.FechaFinRegla.IsNotNull())
                     return DateTime.Now.Date <= regla.FechaFinRegla.Value.Date;
 
 

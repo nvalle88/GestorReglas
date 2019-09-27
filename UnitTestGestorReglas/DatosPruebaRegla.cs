@@ -8,8 +8,41 @@ namespace UnitTestGestorReglas
     {
         public static List<Regla> ReglaVacia() => new List<Regla>();
 
-        public static List<Regla> ReglaCambioNombreIND()
-            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para productos individuales cambio de nombre plan\",\"FechaInicioRegla\":null,\"FechaFinRegla\":\"2019-09-30\",\"EstadoActivo\":false,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"],\"CodigoPlan\":[\"*-D*\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"Region\",\"Valor\":\"Costa\"},{\"NombrePropiedad\":\"Version\",\"Valor\":\"1000000\"}]}}]");
+        public static List<Regla> ReglaCambioNombrePosicionPreIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"NombrePlan\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"Pre\"}]}}]");
+
+        public static List<Regla> ReglaCambioNombrePosicionPosIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"NombrePlan\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"Pos\"}]}}]");
+
+        public static List<Regla> ReglaCambioNombreSobreescribirIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"NombrePlan\",\"Valor\":\"Producto Individual -\"}]}}]");
+
+        public static List<Regla> ReglaCambioNombrePosicionDesconocidaIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"NombrePlan\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"222\"}]}}]");
+
+
+
+
+        public static List<Regla> ReglaCambioObservacionPosicionPreIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"Observaciones\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"Pre\"}]}}]");
+
+        public static List<Regla> ReglaCambioObservacionPosicionPosIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"Observaciones\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"Pos\"}]}}]");
+
+        public static List<Regla> ReglaCambioObservacionSobreescribirIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"Observaciones\",\"Valor\":\"Producto Individual -\"}]}}]");
+
+        public static List<Regla> ReglaCambioObservacionPosicionDesconocidaIND()
+            => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para\",\"EstadoActivo\":true,\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"SalidaContrato\":[{\"NombrePropiedad\":\"Observaciones\",\"Valor\":\"Producto Individual -\",\"Posicion\":\"222\"}]}}]");
+
+
+
+
+
+
+
+
+
 
         public static List<Regla> ReglaCambioObservacionIND()
             => JsonConvert.DeserializeObject<List<Regla>>("[{\"Codigo\":\"01\",\"Descripcion\":\"Regla para productos individuales cambio de observacion contrato\",\"FechaInicioRegla\":null,\"FechaFinRegla\":null,\"EstadoActivo\":true,\"Convenio\":[],\"Aplicacion\":[],\"Plataforma\":[],\"Entrada\":{\"EntradaContrato\":{\"Producto\":[\"IND\"]},\"EntradaBeneficiario\":{},\"EntradaBeneficioPlan\":[]},\"Salida\":{\"ObservacionesContrato\":{\"Texto\":\"Cambio de Observaci\u00f3n - \"}}}]");

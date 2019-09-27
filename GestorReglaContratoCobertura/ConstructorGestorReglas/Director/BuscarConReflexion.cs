@@ -13,29 +13,27 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
         {
             if (salida.IsNullOrEmpty())
                 return;
-           
-            var propiedades = objeto.GetType().GetProperties();
-            foreach (var propiedad in propiedades)
-            {
-                var s = salida.FirstOrDefault(x => x.NombrePropiedad == propiedad.Name);
-                if (s.IsNotNull())
+
+            objeto.GetType().GetProperties()
+                .Where(p => salida.Select(s => s.NombrePropiedad).Contains(p.Name))
+                .ToList()
+                .ForEach(p =>
                 {
-                    try
+                    var s = salida.FirstOrDefault(x => x.NombrePropiedad == p.Name);
+                    if (s.IsNotNull())
                     {
-                        propiedad.SetValue(objeto, Convert.ChangeType
-                                      (
-                                      propiedad.PropertyType.EsString()
-                                      ? Utilidades.ProcesarTexto
-                                      (
-                                          s.Valor, objeto.GetType().GetProperty(propiedad.Name).GetValue(objeto, null).ToString(), s.Posicion)
-                                      : s.Valor, propiedad.PropertyType), null);
+                        try
+                        {
+                            p.SetValue(objeto, Convert.ChangeType
+                                (p.PropertyType.EsString()
+                                    ? Utilidades.ProcesarTexto(s.Valor, objeto.GetType().GetProperty(p.Name).GetValue(objeto, null).ToString(), s.Posicion)
+                                    : s.Valor, p.PropertyType), null);
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                }
-            }
+                });
         }
     }
 }

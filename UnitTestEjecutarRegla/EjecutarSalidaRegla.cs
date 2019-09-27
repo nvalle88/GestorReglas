@@ -17,7 +17,7 @@ namespace UnitTestEjecutarRegla
 
 
             var listaContratos = DatosPruebaContrato.ContratoIND();
-            var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
+            var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionPreIND();
             
             // Act
 
