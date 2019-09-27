@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestExtensores", "UnitT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestEjecutarRegla", "UnitTestEjecutarRegla\UnitTestEjecutarRegla.csproj", "{B3B357BB-307C-4789-98A9-9CB38A505DCA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestReglasBeneficiarios", "UnitTestReglasBeneficiarios\UnitTestReglasBeneficiarios.csproj", "{1AE02F52-9005-4F36-84C9-335CBAFF7B55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{B3B357BB-307C-4789-98A9-9CB38A505DCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3B357BB-307C-4789-98A9-9CB38A505DCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3B357BB-307C-4789-98A9-9CB38A505DCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE02F52-9005-4F36-84C9-335CBAFF7B55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE02F52-9005-4F36-84C9-335CBAFF7B55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE02F52-9005-4F36-84C9-335CBAFF7B55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE02F52-9005-4F36-84C9-335CBAFF7B55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

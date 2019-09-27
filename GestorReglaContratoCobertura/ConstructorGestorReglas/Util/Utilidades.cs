@@ -6,7 +6,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     {
         public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
         {
-            if (posicion.IsNull2())
+            if (posicion.IsNull())
                 return textoRegla;
 
             switch (posicion)

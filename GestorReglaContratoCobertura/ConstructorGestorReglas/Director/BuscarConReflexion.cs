@@ -13,8 +13,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
         {
             if (salida.IsNullOrEmpty())
                 return;
-           
-            var propiedades = objeto.GetType().GetProperties();
+            var propiedades = objeto.GetType().GetProperties().Where(x => salida.Select(y => y.NombrePropiedad).Contains(x.Name));
             foreach (var propiedad in propiedades)
             {
                 var s = salida.FirstOrDefault(x => x.NombrePropiedad == propiedad.Name);

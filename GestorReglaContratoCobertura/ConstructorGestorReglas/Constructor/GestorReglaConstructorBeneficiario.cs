@@ -18,7 +18,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 
         public void AplicarRegla(List<SalidaGenerica> salida)
         {
-            if (salida.IsNull2())
+            if (salida.IsNull())
             {
                 return;
             }

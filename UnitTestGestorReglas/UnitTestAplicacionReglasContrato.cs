@@ -41,7 +41,7 @@ namespace UnitTestGestorReglas
             listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, convenio, aplicacion, plataforma);
 
             // Assert
-            Assert.AreEqual("Producto Individual - Ideal 4d Sierra", listaContratos.FirstOrDefault().NombrePlan);
+            Assert.AreEqual("Producto Individual - ", listaContratos.FirstOrDefault().NombrePlan);
         }
 
         [TestMethod]

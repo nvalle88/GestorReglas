@@ -1,6 +1,12 @@
 ﻿using GestorReglaContratoCobertura;
+using GestorReglaContratoCobertura.Modelos.Contrato;
+using GestorReglaContratoCobertura.Modelos.Regla;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using UnitTestGestorReglas;
 
 namespace ConsoleApp2
@@ -9,16 +15,47 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
-            var aplicacion = 0;
-            var plataforma = 0;
+            Ejecutar(InicioRegla(), InicioContrato());
+            Console.ReadLine();
+        }
+
+        public static List<Contrato>  InicioContrato()
+        {
             var listaContratos = DatosPruebaContrato.ContratoIND();
+            listaContratos.AddRange(DatosPruebaContrato.ContratoPOO());
+            listaContratos.AddRange(DatosPruebaContrato.ContratosIND());
+            return listaContratos;
+        }
+
+        public static List<Regla> InicioRegla()
+        {
             var listaReglas = DatosPruebaRegla.ReglaCambioNombreIND();
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioObservacionIND());
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioBeneficiarioContrato());
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaxima());
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaximaMayorIgualValor());
+            listaReglas.AddRange(DatosPruebaRegla.ReglaCodigoPlan());
+            return listaReglas;
+        }
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);
+        public static void Ejecutar(List<Regla> listaReglas,List<Contrato> listaContratos)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Restart();
+            stopwatch.Start();
+            Parallel.For(0,1000,r=>
+            {
+                var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
+                var aplicacion = 0;
+                var plataforma = 0;
+                var gestorReglas = new GestorReglaContrato(listaReglas);
+                listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);
+            });
 
-            Console.WriteLine(JsonConvert.SerializeObject(listaContratos));
+            stopwatch.Stop();
+            Console.WriteLine($" [Tiempo sin carga data: {stopwatch.ElapsedMilliseconds}] ,");
+            Console.ReadLine();
+            Ejecutar(InicioRegla(),InicioContrato());
         }
     }
 }

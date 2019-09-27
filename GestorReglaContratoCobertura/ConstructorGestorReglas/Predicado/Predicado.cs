@@ -58,7 +58,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         private static ExprContrato GeneraPredicadoContrato(ReglaEntradaContrato regla)
         {
             ExprContrato predicado = ConstructorPredicado.True<Contrato>();
-
+            if (regla.IsNull())
+            {
+                return predicado;
+            }
             if (regla.Region.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Region.Contains(contrato.Region, StringComparison.InvariantCultureIgnoreCase);
@@ -99,7 +102,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 });
 
                 ExprContrato exprOr = ConstruirArbolExpresionOr<Contrato>(filtros);
-                if (exprOr.IsNull2())
+                if (exprOr.IsNull())
                     return null;
                 predicado = predicado.And2(exprOr);
             }
@@ -121,7 +124,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "CoberturaMaxima"; return x; }).ToList();
 
                 ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -143,7 +146,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleTotal"; return x; }).ToList();
 
                 ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -191,6 +194,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             ExprBeneficiario predicado = ConstructorPredicado.True<Beneficiario>();
 
+            if (regla.IsNull())
+            {
+                return predicado;
+            }
             if (regla.RelacionDependiente.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.RelacionDependiente.Contains(beneficiario.RelacionDependiente, StringComparison.InvariantCultureIgnoreCase);
@@ -214,7 +221,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "Edad"; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -230,7 +237,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -252,7 +259,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -274,7 +281,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
-                if (exprAnd.IsNull2())
+                if (exprAnd.IsNull())
                     return null;
                 predicado = predicado.And2(exprAnd);
             }
@@ -336,7 +343,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             // Todo: si falla al crear el predicado, no aplicar la regla
             var predicado = GeneraPredicadoContrato(regla);
 
-            return predicado.IsNull2()
+            return predicado.IsNull()
                 ? null
                 : contratos.AsQueryable().Where(predicado).ToList();
         }
@@ -345,7 +352,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             var predicado = GeneraPredicadoBeneficiario(regla);
 
-            return predicado.IsNull2()
+            return predicado.IsNull()
                 ? null
                 : beneficiarios.AsQueryable().Where(predicado).ToList();
         }

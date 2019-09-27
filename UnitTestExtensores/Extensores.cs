@@ -18,7 +18,7 @@ namespace UnitTestExtensores
         public void IsNull_StringNull()
         {
             string obj = null;
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsTrue(validacion);
         }
 
@@ -26,7 +26,7 @@ namespace UnitTestExtensores
         public void IsNull_ObjetoNull()
         {
             object obj = null;
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsTrue(validacion);
         }
 
@@ -34,7 +34,7 @@ namespace UnitTestExtensores
         public void IsNull_ListNull()
         {
             List<int> obj = null;
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsTrue(validacion);
         }
 
@@ -42,7 +42,7 @@ namespace UnitTestExtensores
         public void IsNull_ClassNull()
         {
             PropClass obj = null;
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsTrue(validacion);
         }
 
@@ -50,7 +50,7 @@ namespace UnitTestExtensores
         public void IsNull_ObjetoString()
         {
             object obj = "abc";
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsFalse(validacion);
         }
 
@@ -58,7 +58,7 @@ namespace UnitTestExtensores
         public void IsNull_ObjetoInt()
         {
             object obj = 12;
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsFalse(validacion);
         }
 
@@ -70,7 +70,7 @@ namespace UnitTestExtensores
                 Prop1 = "abc",
                 Prop2 = 123
             };
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsFalse(validacion);
         }
 
@@ -82,7 +82,7 @@ namespace UnitTestExtensores
                 Prop1 = "abc",
                 Prop2 = 123
             };
-            var validacion = obj.IsNull2();
+            var validacion = obj.IsNull();
             Assert.IsFalse(validacion);
         }
         #endregion IsNull

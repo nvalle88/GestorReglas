@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GestorReglaContratoCobertura, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GestorReglaContratoCobertura.1.0.0\lib\netstandard2.0\GestorReglaContratoCobertura.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -58,10 +61,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GestorReglaContratoCobertura\GestorReglaContratoCobertura.csproj">
-      <Project>{fe5dc756-7e09-4862-b6fb-84eb8d9642c3}</Project>
-      <Name>GestorReglaContratoCobertura</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UnitTestGestorReglas\UnitTestGestorReglas.csproj">
       <Project>{7123a18c-8de3-4942-8e5b-6f00bc153958}</Project>
       <Name>UnitTestGestorReglas</Name>

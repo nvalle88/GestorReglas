@@ -28,7 +28,7 @@ namespace GestorReglaContratoCobertura.Extensores
         public static bool IsNotNullOrEmpty<T>(this ICollection<T> obj)
             => obj == null ? false : obj.Count > 0;
 
-        public static bool IsNull2(this object obj)
+        public static bool IsNull(this object obj)
             => obj == null;
 
         public static bool IsNullOrEmpty(this string obj)
