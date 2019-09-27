@@ -41,7 +41,7 @@ namespace ConsoleApp2
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Restart();
             stopwatch.Start();
-            Parallel.For(0,1000,r=>
+            Parallel.For(0,10000,r=>
             {
                 var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
                 var aplicacion = 0;
