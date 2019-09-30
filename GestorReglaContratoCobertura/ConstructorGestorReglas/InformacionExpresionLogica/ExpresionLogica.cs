@@ -1,5 +1,4 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
-using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
+﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
 using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica

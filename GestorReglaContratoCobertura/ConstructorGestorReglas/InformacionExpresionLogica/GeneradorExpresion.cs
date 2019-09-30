@@ -16,6 +16,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         {
             MemberExpression member = Expression.Property(param, filter.NombrePropiedad);
             ConstantExpression constant = Expression.Constant(filter.Valor);
+
             switch (filter.Operador)
             {
                 case Operador.Igual:

@@ -8,23 +8,11 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     {
         public static bool ValidarFechaRegla(Regla regla)
         {
+            var fechaActual = DateTime.Now.Date;
             try
             {
-                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNull())
-                    return DateTime.Now.Date >= regla.FechaInicioRegla.Value.Date;
-
-
-                if (regla.FechaInicioRegla.IsNull() && regla.FechaFinRegla.IsNotNull())
-                    return DateTime.Now.Date <= regla.FechaFinRegla.Value.Date;
-
-
-                if (regla.FechaInicioRegla.IsNotNull() && regla.FechaFinRegla.IsNotNull())
-                {
-                    var fechaActual = DateTime.Now.Date;
-                    return (fechaActual >= regla.FechaInicioRegla.Value.Date) && (fechaActual <= regla.FechaFinRegla.Value.Date);
-                }
-
-                return true;
+                return (regla.FechaInicioRegla.IsNull() || regla.FechaInicioRegla <= fechaActual) &&
+                    (regla.FechaFinRegla.IsNull() || regla.FechaFinRegla >= fechaActual);
             }
             catch (Exception)
             {

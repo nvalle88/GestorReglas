@@ -57,6 +57,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpresionesLogicas.cs" />
     <Compile Include="ExpresionesRegularesGestor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

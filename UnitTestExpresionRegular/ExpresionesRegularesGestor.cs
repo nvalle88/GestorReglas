@@ -48,7 +48,7 @@ namespace UnitTestExpresionRegular
     }
 
     [TestClass]
-    public class ExpresionRegularGestorEspacio
+    public class ExpresionRegularGestorEliminarEspacio
     {
         [TestMethod]
         public void EliminarEspacioInicio()
@@ -92,7 +92,7 @@ namespace UnitTestExpresionRegular
     }
 
     [TestClass]
-    public class ExpresionLogica
+    public class ExpresionLogicaTest
     {
         [TestMethod]
         public void ValidaExpresionLogica_Correcta_ProposisionSimple_Mayor()

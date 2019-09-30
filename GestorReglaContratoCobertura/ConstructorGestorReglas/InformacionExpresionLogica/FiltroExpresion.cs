@@ -1,6 +1,4 @@
-﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica;
-
-namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
+﻿namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
     public class FiltroExpresion
     {

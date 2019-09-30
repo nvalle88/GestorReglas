@@ -47,7 +47,7 @@ namespace ConsoleApp2
                 var aplicacion = 0;
                 var plataforma = 0;
                 var gestorReglas = new GestorReglaContrato(listaReglas);
-                listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos);
+                listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
             });
 
             stopwatch.Stop();
