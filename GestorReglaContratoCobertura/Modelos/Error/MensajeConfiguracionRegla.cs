@@ -14,4 +14,19 @@
         public static string MensajeErrorParametro(string campo)
             => $"Error en la configuración del parametro {campo}.";
     }
+
+    public static class CrearMensajeConfiguracionRegla
+    {
+        public static MensajeConfiguracionRegla ObtenerMensajeErrorExpresionLogica(string nombrePropiedad, string regla)
+            => new MensajeConfiguracionRegla
+            {
+                Mensaje = $"{GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)} ({regla})"
+            };
+
+        public static MensajeConfiguracionRegla ObtenerMensajeErrorParametro(string nombrePropiedad)
+            => new MensajeConfiguracionRegla
+            {
+                Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
+            };
+    }
 }

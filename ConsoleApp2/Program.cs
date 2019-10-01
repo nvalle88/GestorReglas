@@ -28,11 +28,6 @@ namespace ConsoleApp2
         public static List<Regla> InicioRegla()
         {
             var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionDesconocidaIND();
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioObservacionIND());
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCambioObservacionPosicionDesconocidaIND());
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaxima());
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCoberturaMaximaMayorIgualValor());
-            listaReglas.AddRange(DatosPruebaRegla.ReglaCodigoPlan());
             return listaReglas;
         }
 

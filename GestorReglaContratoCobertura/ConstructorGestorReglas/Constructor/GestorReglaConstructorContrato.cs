@@ -1,5 +1,6 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Director;
 using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
+using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Contrato;
 using GestorReglaContratoCobertura.Modelos.Regla;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 
         public void AplicarRegla(List<SalidaGenerica> salida)
         {
+            if (salida.IsNull())
+                return;
             AplicarReglaSalisa.Buscar(_contrato, salida);
         }
 

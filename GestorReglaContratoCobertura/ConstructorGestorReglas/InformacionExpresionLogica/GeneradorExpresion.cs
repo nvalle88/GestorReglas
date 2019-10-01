@@ -15,7 +15,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
         public static Expression GetExpression<T>(ParameterExpression param, FiltroExpresion filter)
         {
             MemberExpression member = Expression.Property(param, filter.NombrePropiedad);
-            ConstantExpression constant = Expression.Constant(filter.Valor);
+            ConstantExpression constant = Expression.Constant(Convert.ChangeType(filter.Valor, member.Type));
 
             switch (filter.Operador)
             {

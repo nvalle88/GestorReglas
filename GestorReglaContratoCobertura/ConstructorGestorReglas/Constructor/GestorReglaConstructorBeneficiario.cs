@@ -19,9 +19,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
         public void AplicarRegla(List<SalidaGenerica> salida)
         {
             if (salida.IsNull())
-            {
                 return;
-            }
             AplicarReglaSalisa.Buscar(_beneficiario, salida);
         }
 

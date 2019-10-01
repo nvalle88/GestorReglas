@@ -79,7 +79,9 @@ namespace GestorReglaContratoCobertura
 
                         foreach (var contrato in contratosCandidatos)
                         {
-                            regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
+                            if (regla.Entrada.EntradaBeneficiario.IsNotNull())
+                                regla.Entrada.EntradaBeneficiario.DeducibleTotal = contrato.DeducibleTotal;
+
                             var beneficiariosCandidatos = Predicado.ObtenerBeneficiariosCandidatos(contrato.Beneficiarios, regla, out var listaMensajesBeneficiarios);
                             if (beneficiariosCandidatos.IsNull())
                             {
@@ -89,10 +91,10 @@ namespace GestorReglaContratoCobertura
 
                             foreach (var beneficiario in beneficiariosCandidatos)
                             {
-                                if (regla.Entrada.EntradaBeneficioPlan.IsNotNullOrEmpty())
+                                if (regla.Entrada.EntradaBeneficios.IsNotNullOrEmpty())
                                 {
                                     modificarBeneficiario = false;
-                                    foreach (var reglaBeneficio in regla.Entrada.EntradaBeneficioPlan)
+                                    foreach (var reglaBeneficio in regla.Entrada.EntradaBeneficios)
                                     {
                                         var beneficiosPlanCandidatos = Predicado.ObtenerBeneficiosPlanCandidatos(beneficiario.BeneficiosPlan, reglaBeneficio.EntradaBeneficioPlan);
 

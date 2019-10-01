@@ -82,7 +82,7 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
 //                "Maternidad": true,
 //                "SuperaDeducible": true
 //            },
-//            "EntradaBeneficioPlan": [
+//            "EntradaBeneficios": [
 //                {
 //                    "EntradaBeneficioPlan": {
 //                        "CodigoBeneficio": [""],

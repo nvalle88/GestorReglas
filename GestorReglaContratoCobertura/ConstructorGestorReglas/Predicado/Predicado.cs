@@ -17,37 +17,6 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 {
     public static class Predicado
     {
-        private static ExprRegla GeneraPredicadoRegla(int convenio, int aplicacion, int plataforma)
-        {
-            ExprRegla predicado = ConstructorPredicado.True<Regla>();
-
-            var fechaActual = DateTime.Now.Date;
-
-            ExprRegla cFecha = regla
-                => (regla.FechaInicioRegla == null || regla.FechaInicioRegla <= fechaActual) &&
-                (regla.FechaFinRegla == null || regla.FechaFinRegla >= fechaActual);
-
-            if (convenio > 0)
-            {
-                ExprRegla criterio = regla => regla.Convenio.Contains(convenio);
-                predicado = predicado.And(criterio);
-            }
-
-            if (aplicacion > 0)
-            {
-                ExprRegla criterio = regla => regla.Aplicacion.Contains(aplicacion);
-                predicado = predicado.And(criterio);
-            }
-
-            if (plataforma > 0)
-            {
-                ExprRegla criterio = regla => regla.Plataforma.Contains(plataforma);
-                predicado = predicado.And(criterio);
-            }
-
-            return predicado;
-        }
-
         private static ExprContrato GeneraPredicadoContrato(ReglaEntradaContrato regla, out List<MensajeConfiguracionRegla> listaMensajes)
         {
             listaMensajes = new List<MensajeConfiguracionRegla>();
@@ -57,6 +26,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             {
                 return predicado;
             }
+
             if (regla.Region.IsNotNullOrEmpty())
             {
                 ExprContrato criterio = contrato => regla.Region.Contains(contrato.Region, StringComparison.InvariantCultureIgnoreCase);
@@ -83,19 +53,20 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
                 foreach (var codigo in regla.CodigoPlan)
                 {
-                    if (ExpresionRegular.EliminarComodin(codigo).IsNullOrEmpty())
+                    var valor = ExpresionRegular.EliminarComodin(codigo);
+                    if (valor.IsNullOrEmpty())
                         continue;
 
                     var filtro = new FiltroExpresion
                     {
                         NombrePropiedad = nombrePropiedad,
-                        Valor = ExpresionRegular.EliminarComodin(codigo)
+                        Valor = valor
                     };
-                    if (codigo.StartsWith("*") && codigo.EndsWith("*") && codigo.Trim().IsNotNullOrEmpty())
+                    if (codigo.StartsWith("*") && codigo.EndsWith("*"))
                         filtro.Operador = Operador.Contiene;
-                    else if (codigo.StartsWith("*") && codigo.Trim().IsNotNullOrEmpty())
+                    else if (codigo.StartsWith("*"))
                         filtro.Operador = Operador.TerminaCon;
-                    else if (codigo.EndsWith("*") && codigo.Trim().IsNotNullOrEmpty())
+                    else if (codigo.EndsWith("*"))
                         filtro.Operador = Operador.IniciaCon;
                     else if (codigo.Trim().IsNotNullOrEmpty())
                         filtro.Operador = Operador.IgualQue;
@@ -105,10 +76,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 ExprContrato exprOr = ConstruirArbolExpresionOr<Contrato>(filtros);
                 if (exprOr.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprOr);
@@ -126,10 +94,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 var expresionLogica = new ExpresionLogica(regla.CoberturaMaxima);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.CoberturaMaxima));
                     return null;
                 }
 
@@ -138,10 +103,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    }); ;
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -159,22 +121,16 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 var expresionLogica = new ExpresionLogica(regla.DeducibleTotal);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.DeducibleTotal));
                     return null;
                 }
 
-                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleTotal"; return x; }).ToList();
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = nombrePropiedad; return x; }).ToList();
 
                 ExprContrato exprAnd = ConstruirArbolExpresionAnd<Contrato>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -229,6 +185,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             {
                 return predicado;
             }
+
             if (regla.RelacionDependiente.IsNotNullOrEmpty())
             {
                 ExprBeneficiario criterio = beneficiario => regla.RelacionDependiente.Contains(beneficiario.RelacionDependiente, StringComparison.InvariantCultureIgnoreCase);
@@ -247,22 +204,16 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 var expresionLogica = new ExpresionLogica(regla.Edad);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.Edad));
                     return null;
                 }
 
-                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "Edad"; return x; }).ToList();
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = nombrePropiedad; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    }); ;
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -271,25 +222,19 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.DeducibleCubierto.IsNotNullOrEmpty())
             {
                 var nombrePropiedad = "DeducibleCubierto";
-                var expresionLogica = new ExpresionLogica(regla.Edad);
+                var expresionLogica = new ExpresionLogica(regla.DeducibleCubierto);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.DeducibleCubierto));
                     return null;
                 }
 
-                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = nombrePropiedad; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -304,25 +249,19 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.DiasFinCarencia.IsNotNullOrEmpty())
             {
                 var nombrePropiedad = "DiasFinCarencia";
-                var expresionLogica = new ExpresionLogica(regla.Edad);
+                var expresionLogica = new ExpresionLogica(regla.DiasFinCarencia);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.DiasFinCarencia));
                     return null;
                 }
 
-                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = "DeducibleCubierto"; return x; }).ToList();
+                expresionLogica.Proposiciones.Select(x => { x.NombrePropiedad = nombrePropiedad; return x; }).ToList();
 
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -337,13 +276,10 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
             if (regla.DiasFinCarenciaHospitalaria.IsNotNullOrEmpty())
             {
                 var nombrePropiedad = "DiasFinCarenciaHospitalaria";
-                var expresionLogica = new ExpresionLogica(regla.Edad);
+                var expresionLogica = new ExpresionLogica(regla.DiasFinCarenciaHospitalaria);
                 if (!expresionLogica.EsExpresionLogica)
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorExpresionLogica(nombrePropiedad, regla.DiasFinCarenciaHospitalaria));
                     return null;
                 }
 
@@ -352,10 +288,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 ExprBeneficiario exprAnd = ConstruirArbolExpresionAnd<Beneficiario>(expresionLogica.Proposiciones);
                 if (exprAnd.IsNull())
                 {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)
-                    });
+                    listaMensajes.Add(CrearMensajeConfiguracionRegla.ObtenerMensajeErrorParametro(nombrePropiedad));
                     return null;
                 }
                 predicado = predicado.And(exprAnd);
@@ -373,23 +306,9 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And(criterio);
             }
 
-            return predicado;
-        }
-
-        [Obsolete("Se realiza el filtro directamente en la lista de beneficios plan método ObtenerBeneficiosPlanCandidatos")]
-        private static ExprBeneficioPlan GeneraPredicadoBeneficioPlan(EntradaBeneficioPlan regla)
-        {
-            ExprBeneficioPlan predicado = ConstructorPredicado.True<BeneficiosPlan>();
-
-            if (regla.CodigoBeneficio.IsNotNull())
+            if (regla.SuperaDeducible.IsNotNull())
             {
-                ExprBeneficioPlan criterio = beneficioPlan => regla.CodigoBeneficio.Contains(beneficioPlan.CodigoBeneficio, StringComparison.InvariantCultureIgnoreCase);
-                predicado = predicado.And(criterio);
-            }
-
-            if (regla.EsPorcentaje.IsNotNull())
-            {
-                ExprBeneficioPlan criterio = beneficioPlan => beneficioPlan.EsPorcentaje == regla.EsPorcentaje;
+                ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto >= regla.DeducibleTotal;
                 predicado = predicado.And(criterio);
             }
 

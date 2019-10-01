@@ -6,7 +6,7 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
     {
         public ReglaEntradaContrato EntradaContrato { get; set; }
         public ReglaEntradaBeneficiario EntradaBeneficiario { get; set; }
-        public List<ReglaEntradaBeneficioPlan> EntradaBeneficioPlan { get; set; }
+        public List<ReglaEntradaBeneficioPlan> EntradaBeneficios { get; set; }
     }
     public class ReglaEntradaContrato
     {
