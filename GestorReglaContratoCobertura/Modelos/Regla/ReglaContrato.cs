@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GestorReglaContratoCobertura.Modelos.Regla
+namespace Saludsa.GestorReglaContratoCobertura.Regla
 {
-    public class Regla
+    public class ReglaContrato
     {
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
@@ -17,7 +17,6 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public Salida Salida { get; set; }
     }
 }
-
 
 //Estructura JSON completa para la regla
 //[

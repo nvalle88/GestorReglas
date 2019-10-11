@@ -2,20 +2,18 @@
 using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
 using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Contrato;
-using GestorReglaContratoCobertura.Modelos.Error;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Mensaje;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using ExprBeneficiario = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.Beneficiario, bool>>;
-using ExprBeneficioPlan = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.BeneficiosPlan, bool>>;
 using ExprContrato = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Contrato.Contrato, bool>>;
-using ExprRegla = System.Linq.Expressions.Expression<System.Func<GestorReglaContratoCobertura.Modelos.Regla.Regla, bool>>;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 {
-    public static class Predicado
+    internal static class Predicado
     {
         private static ExprContrato GeneraPredicadoContrato(ReglaEntradaContrato regla, out List<MensajeConfiguracionRegla> listaMensajes)
         {
@@ -172,6 +170,20 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 predicado = predicado.And(criterio);
             }
 
+            if (regla.EsVigente.IsNotNull())
+            {
+                if (regla.EsVigente.Value)
+                {
+                    ExprContrato criterio = contrato => contrato.FechaVigencia > DateTime.Now.Date;
+                    predicado = predicado.And(criterio);
+                }
+                else
+                {
+                    ExprContrato criterio = contrato => contrato.FechaVigencia <= DateTime.Now.Date;
+                    predicado = predicado.And(criterio);
+                }
+            }
+
             return predicado;
         }
 
@@ -308,41 +320,32 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
             if (regla.SuperaDeducible.IsNotNull())
             {
-                ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto >= regla.DeducibleTotal;
-                predicado = predicado.And(criterio);
+                if (regla.SuperaDeducible.Value)
+                {
+                    ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto >= regla.DeducibleTotal;
+                    predicado = predicado.And(criterio);
+                }
+                else
+                {
+                    ExprBeneficiario criterio = beneficiario => beneficiario.DeducibleCubierto < regla.DeducibleTotal;
+                    predicado = predicado.And(criterio);
+                }
             }
 
             return predicado;
         }
 
-        internal static List<Regla> ObtenerReglasCandidatas(List<Regla> reglas, int convenio, int aplicacion, int plataforma, out List<MensajeConfiguracionRegla> listaMensajes)
+        internal static List<ReglaContrato> ObtenerReglasCandidatas(List<ReglaContrato> reglas, int convenio, int aplicacion, int plataforma)
         {
-            listaMensajes = new List<MensajeConfiguracionRegla>();
-
-            var listaSalida = new List<Regla>();
-            foreach (var regla in reglas)
-            {
-                if (regla.EstadoActivo
+            return reglas.Where(regla => regla.EstadoActivo
                     && Validaciones.ValidarFechaRegla(regla)
                     && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
                     && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
                     && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true)
-                {
-                    listaSalida.Add(regla);
-                }
-                else
-                {
-                    listaMensajes.Add(new MensajeConfiguracionRegla
-                    {
-                        Codigo = regla.Codigo,
-                        Mensaje = "Error en la configuración de la fecha"
-                    });
-                }
-            }
-            return listaSalida;
+                .ToList();
         }
 
-        internal static List<Contrato> ObtenerContratosCandidatos(List<Contrato> contratos, Regla regla, out List<MensajeConfiguracionRegla> listaMensajesContrato)
+        internal static List<Contrato> ObtenerContratosCandidatos(List<Contrato> contratos, ReglaContrato regla, out List<MensajeConfiguracionRegla> listaMensajesContrato)
         {
             listaMensajesContrato = new List<MensajeConfiguracionRegla>();
 
@@ -354,7 +357,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
                 : contratos.AsQueryable().Where(predicado).ToList();
         }
 
-        internal static List<Beneficiario> ObtenerBeneficiariosCandidatos(List<Beneficiario> beneficiarios, Regla regla, out List<MensajeConfiguracionRegla> listaMensajesBeneficiario)
+        internal static List<Beneficiario> ObtenerBeneficiariosCandidatos(List<Beneficiario> beneficiarios, ReglaContrato regla, out List<MensajeConfiguracionRegla> listaMensajesBeneficiario)
         {
             listaMensajesBeneficiario = new List<MensajeConfiguracionRegla>();
 

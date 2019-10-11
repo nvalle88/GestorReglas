@@ -2,12 +2,12 @@
 using GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces;
 using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Contrato;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 {
-    public class GestorReglaConstructorBeneficioPlan : IGestorReglaConstructorBeneficioPlan
+    internal class GestorReglaConstructorBeneficioPlan : IGestorReglaConstructorBeneficioPlan
     {
         private BeneficiosPlan _beneficioPlan;
 
@@ -31,5 +31,4 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Constructor
 
         private void LimpiarBeneficioPlan() => _beneficioPlan = new BeneficiosPlan();
     }
-
 }

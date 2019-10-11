@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
-    public class ExpresionLogica
+    internal class ExpresionLogica
     {
-        public bool EsExpresionLogica { get; }
-        public List<FiltroExpresion> Proposiciones { get; }
-        public string OperadorLogico { get; }
+        internal bool EsExpresionLogica { get; }
+        internal List<FiltroExpresion> Proposiciones { get; }
+        internal string OperadorLogico { get; }
 
-        public ExpresionLogica(string cadena)
+        internal ExpresionLogica(string cadena)
         {
             Proposiciones = new List<FiltroExpresion>();
             cadena = ExpresionRegular.EliminarEspacio(cadena);

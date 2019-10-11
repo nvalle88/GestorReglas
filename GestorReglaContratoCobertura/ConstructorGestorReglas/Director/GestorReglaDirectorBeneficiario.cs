@@ -2,11 +2,11 @@
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 {
-    public class GestorReglaDirectorBeneficiario
+    internal class GestorReglaDirectorBeneficiario
     {
         private readonly IGestorReglaConstructorBeneficiario _gestorReglaConstructorBeneficiario;
 
-        public GestorReglaDirectorBeneficiario(IGestorReglaConstructorBeneficiario gestorReglaConstructorBeneficiario)
+        internal GestorReglaDirectorBeneficiario(IGestorReglaConstructorBeneficiario gestorReglaConstructorBeneficiario)
         {
             _gestorReglaConstructorBeneficiario = gestorReglaConstructorBeneficiario;
         }

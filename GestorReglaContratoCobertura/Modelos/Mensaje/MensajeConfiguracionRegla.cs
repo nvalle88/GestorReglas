@@ -1,4 +1,4 @@
-﻿namespace GestorReglaContratoCobertura.Modelos.Error
+﻿namespace Saludsa.GestorReglaContratoCobertura.Mensaje
 {
     public class MensajeConfiguracionRegla
     {
@@ -6,24 +6,24 @@
         public string Mensaje { get; set; }
     }
 
-    public static class GenerarMensajeConfiguracionRegla
+    internal static class GenerarMensajeConfiguracionRegla
     {
-        public static string MensajeErrorExpresionLogica(string campo)
+        internal static string MensajeErrorExpresionLogica(string campo)
             => $"{MensajeErrorParametro(campo)} No es una expresión lógica";
 
-        public static string MensajeErrorParametro(string campo)
+        internal static string MensajeErrorParametro(string campo)
             => $"Error en la configuración del parametro {campo}.";
     }
 
-    public static class CrearMensajeConfiguracionRegla
+    internal static class CrearMensajeConfiguracionRegla
     {
-        public static MensajeConfiguracionRegla ObtenerMensajeErrorExpresionLogica(string nombrePropiedad, string regla)
+        internal static MensajeConfiguracionRegla ObtenerMensajeErrorExpresionLogica(string nombrePropiedad, string regla)
             => new MensajeConfiguracionRegla
             {
                 Mensaje = $"{GenerarMensajeConfiguracionRegla.MensajeErrorExpresionLogica(nombrePropiedad)} ({regla})"
             };
 
-        public static MensajeConfiguracionRegla ObtenerMensajeErrorParametro(string nombrePropiedad)
+        internal static MensajeConfiguracionRegla ObtenerMensajeErrorParametro(string nombrePropiedad)
             => new MensajeConfiguracionRegla
             {
                 Mensaje = GenerarMensajeConfiguracionRegla.MensajeErrorParametro(nombrePropiedad)

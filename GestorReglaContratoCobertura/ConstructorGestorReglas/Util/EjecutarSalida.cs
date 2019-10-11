@@ -1,16 +1,14 @@
 ﻿using GestorReglaContratoCobertura.Extensores;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
-    public static class EjecutarSalida
+    internal static class EjecutarSalida
     {
-        public static void Inicio(object objeto, List<SalidaGenerica> salida)
+        internal static void Inicio(object objeto, List<SalidaGenerica> salida)
         {
             var propiedades = objeto.GetType().GetProperties();
             foreach (var propiedad in propiedades)
@@ -24,8 +22,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
                                       (
                                       propiedad.PropertyType.EsString()
                                       ? Utilidades.ProcesarTexto
-                                      (
-                                          s.Valor, objeto.GetType().GetProperty(propiedad.Name).GetValue(objeto, null).ToString(), s.Posicion)
+                                      (s.Valor, objeto.GetType().GetProperty(propiedad.Name).GetValue(objeto, null).ToString(), s.Posicion)
                                       : s.Valor, propiedad.PropertyType), null);
                     }
                     catch (Exception)
@@ -36,6 +33,4 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
             }
         }
     }
-
 }
-

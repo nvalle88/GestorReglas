@@ -6,19 +6,20 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
     /// <summary>
     /// Recopila las expresiones regulares usadas en el gestor de reglas
     /// </summary>
-    public static class ExpresionRegular
+    internal static class ExpresionRegular
     {
         private const string patronEliminarComodin = @"[*]";
         private const string patronEliminarEspacio = @"\s";
         private const string patronExpresionLogica = @"^(>|>=|<|<=|=|!=)(\d+)((&&|\|\||!)(>|>=|<|<=|=|!=)(\d+))?$";
 
         #region Expresiones de reemplazo
+
         /// <summary>
         /// Elimina el caracter comodín * de la cadena que se envíe
         /// </summary>
         /// <param name="cadena">Cadena con comodín *</param>
         /// <returns>Cadena sin comodín *</returns>
-        public static string EliminarComodin(string cadena)
+        internal static string EliminarComodin(string cadena)
         {
             try
             {
@@ -35,7 +36,7 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
         /// </summary>
         /// <param name="cadena">Cadena con espacios en blanco</param>
         /// <returns>Cadena sin espacios en blanco</returns>
-        public static string EliminarEspacio(string cadena)
+        internal static string EliminarEspacio(string cadena)
         {
             try
             {
@@ -46,15 +47,17 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
                 return cadena;
             }
         }
+
         #endregion Expresiones de reemplazo
 
         #region Expresiones de validación
+
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="cadena"></param>
         /// <returns></returns>
-        public static Match ValidarExpresionLogica(string cadena)
+        internal static Match ValidarExpresionLogica(string cadena)
         {
             try
             {

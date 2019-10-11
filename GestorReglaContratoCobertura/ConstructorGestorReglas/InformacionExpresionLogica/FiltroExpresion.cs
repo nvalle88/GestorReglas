@@ -1,16 +1,16 @@
 ﻿namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
-    public class FiltroExpresion
+    internal class FiltroExpresion
     {
-        public string NombrePropiedad { get; set; }
-        public object Valor { get; set; }
-        public Operador Operador { get; set; }
+        internal string NombrePropiedad { get; set; }
+        internal object Valor { get; set; }
+        internal Operador Operador { get; set; }
 
-        public FiltroExpresion()
+        internal FiltroExpresion()
         {
         }
 
-        public FiltroExpresion(string operador, object valor)
+        internal FiltroExpresion(string operador, object valor)
         {
             switch (operador)
             {

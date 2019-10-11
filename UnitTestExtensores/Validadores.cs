@@ -1,7 +1,7 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using GestorReglaContratoCobertura.Regla;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
+
 using System;
 
 namespace UnitTestExtensores
@@ -12,7 +12,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioNull_FechaFinNull()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = null,
                 FechaFinRegla = null
@@ -25,7 +25,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioValida_FechaFinNull()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = new DateTime(2019, 09, 20),
                 FechaFinRegla = null
@@ -38,7 +38,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioNull_FechaFinValida()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = null,
                 FechaFinRegla = new DateTime(2019, 10, 10)
@@ -51,7 +51,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioValida_FechaFinValida()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = new DateTime(2019, 09, 20),
                 FechaFinRegla = new DateTime(2019, 10, 10)
@@ -64,7 +64,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioValidaFueraDeRango_FechaFinNull()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = new DateTime(2020, 01, 01),
                 FechaFinRegla = null
@@ -77,7 +77,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioNull_FechaFinValidaFueraDeRango()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = null,
                 FechaFinRegla = new DateTime(2019, 09, 01)
@@ -90,7 +90,7 @@ namespace UnitTestExtensores
         [TestMethod]
         public void ValidarFechas_FechaInicioValidaFueraDeRango_FechaFinValidaFueraDeRango()
         {
-            var regla = new Regla
+            var regla = new ReglaContrato
             {
                 FechaInicioRegla = new DateTime(2019, 08, 01),
                 FechaFinRegla = new DateTime(2019, 08, 31)

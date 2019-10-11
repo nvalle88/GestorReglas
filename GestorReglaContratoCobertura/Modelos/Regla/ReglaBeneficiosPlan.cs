@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GestorReglaContratoCobertura.Modelos.Regla
+namespace Saludsa.GestorReglaContratoCobertura.Regla
 {
     public class ReglaEntradaBeneficioPlan
     {

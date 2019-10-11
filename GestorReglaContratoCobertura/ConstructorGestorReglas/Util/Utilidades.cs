@@ -4,26 +4,28 @@ using Newtonsoft.Json.Converters;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
-    public static class Utilidades
+    internal static class Utilidades
     {
-        public static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
+        internal static string ProcesarTexto(string textoRegla, string textoContrato, Posicion? posicion)
         {
             if (posicion.IsNull())
-                return textoRegla;
+                return textoRegla.Trim();
 
             switch (posicion)
             {
                 case Posicion.Pre:
-                    return $"{textoRegla} {textoContrato}";
+                    return $"{textoRegla} {textoContrato}".Trim();
+
                 case Posicion.Pos:
-                    return $"{textoContrato} {textoRegla}";
+                    return $"{textoContrato} {textoRegla}".Trim();
+
                 default:
-                    return textoContrato;
+                    return textoContrato.Trim();
             }
         }
     }
 
-    public class CambioTexto
+    internal class CambioTexto
     {
         public string Texto { get; set; }
         public Posicion Posicion { get; set; }

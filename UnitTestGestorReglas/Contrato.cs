@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GestorReglaContratoCobertura.Modelos.Contrato
+namespace Modelos.Contrato
 {
     public class Titular
     {

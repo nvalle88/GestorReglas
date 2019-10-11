@@ -1,11 +1,7 @@
-﻿using GestorReglaContratoCobertura;
-using GestorReglaContratoCobertura.Modelos.Contrato;
-using GestorReglaContratoCobertura.Modelos.Regla;
+﻿using Saludsa.GestorReglaContratoCobertura;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using UnitTestGestorReglas;
 
 namespace ConsoleApp2
 {
@@ -13,42 +9,26 @@ namespace ConsoleApp2
     {
         static void Main(string[] args)
         {
-            Ejecutar(InicioRegla(), InicioContrato());
-            Console.ReadLine();
-        }
+            List<Contrato> contratos = new List<Contrato>();
+            contratos.Add(new Contrato { Region = "ABC", Producto = "DEF", Numero = 20 });
+            contratos.Add(new Contrato { Region = "QWE", Producto = "RTY", Numero = 40 });
 
-        public static List<Contrato>  InicioContrato()
-        {
-            var listaContratos = DatosPruebaContrato.ContratoIND();
-            listaContratos.AddRange(DatosPruebaContrato.ContratoPOO());
-            listaContratos.AddRange(DatosPruebaContrato.ContratosIND());
-            return listaContratos;
-        }
-
-        public static List<Regla> InicioRegla()
-        {
-            var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionDesconocidaIND();
-            return listaReglas;
-        }
-
-        public static void Ejecutar(List<Regla> listaReglas,List<Contrato> listaContratos)
-        {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Restart();
-            stopwatch.Start();
-            Parallel.For(0,10000,r=>
+            try
             {
-                var convenio = 0; // Convenio de Difare para cambio de texto en parámetro
-                var aplicacion = 0;
-                var plataforma = 0;
-                var gestorReglas = new GestorReglaContrato(listaReglas);
-                listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
-            });
-
-            stopwatch.Stop();
-            Console.WriteLine($" [Tiempo sin carga data: {stopwatch.ElapsedMilliseconds}] ,");
-            Console.ReadLine();
-            Ejecutar(InicioRegla(),InicioContrato());
+                var gestor = new GestorReglaContrato<Contrato>(new List<ReglaContrato>(), contratos);
+                var temp = gestor.AplicarReglasContratoCobertura(out var mensajes);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+    }
+
+    public class Contrato
+    {
+        public string Region { get; set; }
+        public string Producto { get; set; }
+        public int Numero { get; set; }
     }
 }

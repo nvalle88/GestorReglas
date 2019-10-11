@@ -4,16 +4,16 @@ using System.Text.RegularExpressions;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
-    public class EvaluadorPreposicion
+    internal class EvaluadorPreposicion
     {
         private readonly Match _match;
 
-        public EvaluadorPreposicion(Match match)
+        internal EvaluadorPreposicion(Match match)
         {
             _match = match;
         }
 
-        public (List<FiltroExpresion>, string) ValidarCadena()
+        internal (List<FiltroExpresion>, string) ValidarCadena()
         {
             var proposiciones = new List<FiltroExpresion>();
             if (!_match.Success)

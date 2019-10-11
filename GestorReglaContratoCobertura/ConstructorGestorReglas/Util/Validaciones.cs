@@ -1,12 +1,12 @@
 ﻿using GestorReglaContratoCobertura.Extensores;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Util
 {
-    public static class Validaciones
+    internal static class Validaciones
     {
-        public static bool ValidarFechaRegla(Regla regla)
+        internal static bool ValidarFechaRegla(ReglaContrato regla)
         {
             var fechaActual = DateTime.Now.Date;
             try

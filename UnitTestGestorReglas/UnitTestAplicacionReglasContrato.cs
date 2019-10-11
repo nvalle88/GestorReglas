@@ -1,9 +1,8 @@
-﻿using GestorReglaContratoCobertura;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Modelos.Contrato;
+using Saludsa.GestorReglaContratoCobertura;
 using System;
 using System.Linq;
-using Newtonsoft.Json;
-
 
 namespace UnitTestGestorReglas
 {
@@ -19,8 +18,15 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoVacio();
             var listaReglas = DatosPruebaRegla.ReglaVacia();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var temp = gestor.AplicarReglasContratoCobertura(out var mensajes);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             Assert.AreEqual(0, listaContratos.Count);
             Assert.AreEqual(0, listaReglas.Count);
@@ -34,10 +40,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionPreIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Producto Individual - Ideal 4d Sierra", listaContratosRespuesta.FirstOrDefault().NombrePlan);
 
-            Assert.AreEqual("Producto Individual - Ideal 4d Sierra", listaContratos.FirstOrDefault().NombrePlan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         [TestMethod]
@@ -46,10 +59,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionPosIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Ideal 4d Sierra Producto Individual -", listaContratosRespuesta.FirstOrDefault().NombrePlan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Ideal 4d Sierra Producto Individual -", listaContratos.FirstOrDefault().NombrePlan);
         }
 
         [TestMethod]
@@ -58,10 +78,16 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioNombreSobreescribirIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
-
-            Assert.AreEqual("Producto Individual -", listaContratos.FirstOrDefault().NombrePlan);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Producto Individual -", listaContratosRespuesta.FirstOrDefault().NombrePlan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         [TestMethod]
@@ -70,10 +96,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioNombrePosicionDesconocidaIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Ideal 4d Sierra", listaContratosRespuesta.FirstOrDefault().NombrePlan);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Ideal 4d Sierra", listaContratos.FirstOrDefault().NombrePlan);
         }
         #endregion
 
@@ -84,10 +117,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioObservacionPosicionPreIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Producto Individual - Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec", listaContratosRespuesta.FirstOrDefault().Observaciones);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Producto Individual - Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec", listaContratos.FirstOrDefault().Observaciones);
         }
 
         [TestMethod]
@@ -96,10 +136,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioObservacionPosicionPosIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec Producto Individual -", listaContratosRespuesta.FirstOrDefault().Observaciones);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec Producto Individual -", listaContratos.FirstOrDefault().Observaciones);
         }
 
         [TestMethod]
@@ -108,10 +155,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioObservacionSobreescribirIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Producto Individual -", listaContratosRespuesta.FirstOrDefault().Observaciones);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Producto Individual -", listaContratos.FirstOrDefault().Observaciones);
         }
 
         [TestMethod]
@@ -120,10 +174,17 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCambioObservacionPosicionDesconocidaIND();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual("Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec", listaContratosRespuesta.FirstOrDefault().Observaciones);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual("Contrato impago, favor comuníquese con Saludsa al 6020920 o escribe al vive@saludsa.com.ec", listaContratos.FirstOrDefault().Observaciones);
         }
         #endregion
 
@@ -134,11 +195,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCoberturaMaxima1Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -147,11 +216,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaDeducibleTotal1Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -160,11 +237,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCodigoPlan1Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
         #endregion
 
@@ -175,11 +260,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCoberturaMaxima2Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -188,11 +281,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaDeducibleTotal2Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -201,11 +302,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCodigoPlan2Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Producto Individual", StringComparison.InvariantCultureIgnoreCase));
+
         }
         #endregion
 
@@ -216,11 +325,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCoberturaMaxima1PrepFueraRango();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -229,11 +346,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaDeducibleTotal1PrepFueraRango();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+
         }
 
         [TestMethod]
@@ -242,11 +367,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaCodigoPlan1PrepFueraRango();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].NombrePlan.Equals("Ideal 4d Sierra", StringComparison.InvariantCultureIgnoreCase));
+
         }
         #endregion
 
@@ -262,11 +395,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoCOR();
             var listaReglas = DatosPruebaRegla.ReglaEdad1Prep();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.IsTrue(mensajes.Count == 0);
+                Assert.IsTrue(listaContratosRespuesta[0].Beneficiarios.Where(b => b.Edad >= 18).ToList().TrueForAll(b => b.Observaciones.Equals("Producto corporativo")));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsTrue(listaMensajes.Count == 0);
-            Assert.IsTrue(listaContratos[0].Beneficiarios.Where(b => b.Edad >= 18).ToList().TrueForAll(b => b.Observaciones.Equals("Producto corporativo")));
+
         }
 
         #endregion
@@ -279,11 +420,19 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoIND();
             var listaReglas = DatosPruebaRegla.ReglaEntradaBeneficiarioNull();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                Assert.AreEqual(mensajes.Count, 0);
+                Assert.AreEqual(listaContratosRespuesta[0].NombrePlan, "Producto Individual");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.AreEqual(listaMensajes.Count, 0);
-            Assert.AreEqual(listaContratos[0].NombrePlan, "Producto Individual");
+
         }
 
         [TestMethod]
@@ -292,15 +441,67 @@ namespace UnitTestGestorReglas
             var listaContratos = DatosPruebaContrato.ContratoCOR();
             var listaReglas = DatosPruebaRegla.ReglaSuperaDeducible();
 
-            var gestorReglas = new GestorReglaContrato(listaReglas);
-            listaContratos = gestorReglas.AplicarReglasContratoCobertura(listaContratos, out var listaMensajes);
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                var beneficiario = listaContratosRespuesta[0].Beneficiarios.First(b => b.NumeroPersona == 692540);
 
-            var beneficiario = listaContratos[0].Beneficiarios.First(b => b.NumeroPersona == 692540);
+                Assert.IsNotNull(beneficiario);
+                Assert.AreEqual(mensajes.Count, 0);
+                Assert.AreEqual(beneficiario.BeneficiosPlan.First(bp => bp.CodigoBeneficio == "A002").Valor, 12);
+                Assert.IsTrue(beneficiario.BeneficiosPlan.Where(bp => bp.EsPorcentaje).ToList().TrueForAll(bp => !bp.Credito));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            Assert.IsNotNull(beneficiario);
-            Assert.AreEqual(listaMensajes.Count, 0);
-            Assert.AreEqual(beneficiario.BeneficiosPlan.First(bp => bp.CodigoBeneficio == "A002").Valor, 12);
-            Assert.IsTrue(beneficiario.BeneficiosPlan.Where(bp => bp.EsPorcentaje).ToList().TrueForAll(bp => !bp.Credito));
+
+        }
+
+
+        [TestMethod]
+        public void ValidarCambioNombrePlan()
+        {
+            var listaContratos = DatosPruebaContrato.ContratosUsuario0908848617();
+            var listaReglas = DatosPruebaRegla.ReglasCambioNombrePlanDifare_ObservacionContratoVigente_NoCumpleDeducible_CreditoFalso();
+
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes);
+                var contratosINDXPR = listaContratosRespuesta.Where(c => new[] { "IND", "XPR" }.Contains(c.Producto)).ToList();
+                var contratosCORPOO = listaContratosRespuesta.Where(c => new[] { "COR", "POO" }.Contains(c.Producto)).ToList();
+
+                //Assert.AreEqual(listaMensajes.Count, 1);
+                //Assert.IsTrue(listaMensajes[0].Codigo.Equals("LISTA_REGLAS_VACIA"));
+
+                Assert.AreEqual(mensajes.Count, 0);
+                Assert.IsTrue(contratosINDXPR.TrueForAll(c => c.NombrePlan.Contains("<<SALUD - Cobro Fee + Min $ 10.00>>")));
+                Assert.IsTrue(contratosCORPOO.TrueForAll(c => c.NombrePlan.Contains("<<SALUD>>")));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
+
+        [TestMethod]
+        public void ValidarDeducibleContrato()
+        {
+            var listaContratos = DatosPruebaContrato.Contrato743089();
+            var listaReglas = DatosPruebaRegla.ReglaDeducibleCendiavia();
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes, 5045201, 10319);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
     }

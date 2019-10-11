@@ -2,47 +2,71 @@
 using GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado;
 using GestorReglaContratoCobertura.Extensores;
 using GestorReglaContratoCobertura.Modelos.Contrato;
-using GestorReglaContratoCobertura.Modelos.Error;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Newtonsoft.Json;
+using Saludsa.GestorReglaContratoCobertura.Mensaje;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace GestorReglaContratoCobertura
+namespace Saludsa.GestorReglaContratoCobertura
 {
-    public class GestorReglaContrato
+    public class GestorReglaContrato<T>
     {
-        private List<Regla> _listaReglas;
+        private List<ReglaContrato> _listaReglas;
+        private List<Contrato> _listaContratos;
+        public bool puedeAplicarRegla { get; }
 
-        public GestorReglaContrato()
+
+        public GestorReglaContrato(List<ReglaContrato> listaReglas, List<T> listaContrato)
         {
-            _listaReglas = DatosPrueba.ObtenerReglas();
-        }
+            puedeAplicarRegla = false;
 
-        public GestorReglaContrato(List<Regla> listaReglas)
-        {
-            _listaReglas = listaReglas;
-        }
+            if (listaReglas.IsNullOrEmpty())
+                throw new Exception("Lista de reglas vacía");
 
-        public List<Contrato> AplicarReglasContratoCobertura(List<Contrato> listaContratos, out List<MensajeConfiguracionRegla> listaMensajes, int convenio = 0, int aplicacion = 0, int plataforma = 0)
-        {
-            listaMensajes = new List<MensajeConfiguracionRegla>();
-
-            if (listaContratos.IsNullOrEmpty())
-            {
-                listaMensajes.Add(new MensajeConfiguracionRegla
-                {
-                    Codigo = "LISTA_CONTRATOS_VACIA",
-                    Mensaje = "Lista de contratos vacia"
-                });
-                return listaContratos;
-            }
-
-            // lista de respaldo
-            var listaContratoOriginal = listaContratos.Clonar();
+            if (listaContrato.IsNullOrEmpty())
+                throw new Exception("Lista de contratos vacía");
 
             try
             {
-                _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma, out listaMensajes);
+                _listaContratos = JsonConvert.DeserializeObject<List<Contrato>>(JsonConvert.SerializeObject(listaContrato));
+                if (_listaContratos.IsNullOrEmpty()
+                    || _listaContratos.Any(c => c.Numero.IsNull())
+                    || _listaContratos.Any(c => c.Producto.IsNullOrEmpty())
+                    || _listaContratos.Any(c => c.Region.IsNullOrEmpty())
+                    || _listaContratos.Any(c => c.Codigo.IsNull()))
+                    throw new Exception($"Lista de contratos no cumple con las validaciones requeridas");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"No se puede deserializar la lista de contratos: {ex.Message}");
+            }
+
+            _listaReglas = listaReglas;
+            puedeAplicarRegla = true;
+        }
+
+        public List<T> AplicarReglasContratoCobertura(out List<MensajeConfiguracionRegla> listaMensajes, int convenio = 0, int aplicacion = 0, int plataforma = 0)
+        {
+            listaMensajes = new List<MensajeConfiguracionRegla>();
+
+            if (!puedeAplicarRegla)
+            {
+                listaMensajes.Add(new MensajeConfiguracionRegla
+                {
+                    Codigo = "NO_PUEDE_APLICAR",
+                    Mensaje = "No se puede aplicar la regla"
+                });
+                return null;
+            }
+
+            // lista de respaldo
+            var listaContratoOriginal = _listaContratos.Clonar();
+
+            try
+            {
+                _listaReglas = Predicado.ObtenerReglasCandidatas(_listaReglas, convenio, aplicacion, plataforma);
 
                 if (_listaReglas.IsNullOrEmpty())
                 {
@@ -51,10 +75,7 @@ namespace GestorReglaContratoCobertura
                         Codigo = "LISTA_REGLAS_VACIA",
                         Mensaje = "Lista de reglas vacia"
                     });
-
-                    listaMensajes.AddRange(listaMensajes);
-
-                    return listaContratos;
+                    return _listaContratos.DeserializarGenerico<T>();
                 }
 
                 // Creación de constructores para Contrato - Beneficiario - BeneficioPlan
@@ -70,7 +91,7 @@ namespace GestorReglaContratoCobertura
                 {
                     try
                     {
-                        var contratosCandidatos = Predicado.ObtenerContratosCandidatos(listaContratos, regla, out var listaMensajesContrato);
+                        var contratosCandidatos = Predicado.ObtenerContratosCandidatos(_listaContratos, regla, out var listaMensajesContrato);
                         if (contratosCandidatos.IsNullOrEmpty())
                         {
                             listaMensajes.AddRange(listaMensajesContrato);
@@ -101,26 +122,35 @@ namespace GestorReglaContratoCobertura
                                         foreach (var beneficioPlan in beneficiosPlanCandidatos)
                                         {
                                             modificarBeneficiario = true;
-                                            constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
-                                            constructorBeneficioPlan.AplicarRegla(reglaBeneficio.SalidaBeneficioPlan);
+                                            if (reglaBeneficio.SalidaBeneficioPlan.IsNotNullOrEmpty())
+                                            {
+                                                constructorBeneficioPlan.IncorporarBeneficioPlan(beneficioPlan);
+                                                constructorBeneficioPlan.AplicarRegla(reglaBeneficio.SalidaBeneficioPlan);
+                                            }
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                    constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
+                                    if (regla.Salida.IsNotNull() && regla.Salida.SalidaBeneficiario.IsNotNullOrEmpty())
+                                    {
+                                        constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                        constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
+                                    }
                                     modificarContrato = true;
                                 }
 
                                 if (modificarBeneficiario)
                                 {
-                                    constructorBeneficiario.IncorporarBeneficiario(beneficiario);
-                                    constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
+                                    if (regla.Salida.IsNotNull() && regla.Salida.SalidaBeneficiario.IsNotNullOrEmpty())
+                                    {
+                                        constructorBeneficiario.IncorporarBeneficiario(beneficiario);
+                                        constructorBeneficiario.AplicarRegla(regla.Salida.SalidaBeneficiario);
+                                    }
                                     modificarContrato = true;
                                 }
                             }
-                            if (beneficiariosCandidatos.IsNullOrEmpty() || modificarContrato)
+                            if (beneficiariosCandidatos.IsNullOrEmpty() || modificarContrato && regla.Salida.SalidaContrato.IsNotNullOrEmpty())
                             {
                                 constructorContrato.IncorporarContrato(contrato);
                                 constructorContrato.AplicarRegla(regla.Salida.SalidaContrato);
@@ -133,11 +163,11 @@ namespace GestorReglaContratoCobertura
                     }
                 }
 
-                return listaContratos;
+                return _listaContratos.DeserializarGenerico<T>();
             }
             catch (Exception)
             {
-                return listaContratoOriginal;
+                return listaContratoOriginal.DeserializarGenerico<T>();
             }
         }
     }

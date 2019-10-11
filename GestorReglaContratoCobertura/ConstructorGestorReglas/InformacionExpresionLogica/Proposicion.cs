@@ -1,11 +1,11 @@
 ﻿namespace GestorReglaContratoCobertura.ConstructorGestorReglas.InformacionExpresionLogica
 {
-    public class Proposicion
+    internal class Proposicion
     {
-        public Operador Operador { get; set; }
-        public double Valor { get; set; }
+        internal Operador Operador { get; set; }
+        internal double Valor { get; set; }
 
-        public Proposicion(string operador, string valor)
+        internal Proposicion(string operador, string valor)
         {
             switch (operador)
             {

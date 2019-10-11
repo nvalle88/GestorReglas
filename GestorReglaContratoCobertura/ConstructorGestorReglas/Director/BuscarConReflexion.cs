@@ -1,15 +1,15 @@
 ﻿using GestorReglaContratoCobertura.ConstructorGestorReglas.Util;
 using GestorReglaContratoCobertura.Extensores;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Director
 {
-    public static class AplicarReglaSalisa
+    internal static class AplicarReglaSalisa
     {
-        public static void Buscar(object objeto, List<SalidaGenerica> salida)
+        internal static void Buscar(object objeto, List<SalidaGenerica> salida)
         {
             if (salida.IsNullOrEmpty())
                 return;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GestorReglaContratoCobertura.Modelos.Regla
+namespace Saludsa.GestorReglaContratoCobertura.Regla
 {
     public class Entrada
     {
@@ -8,6 +8,7 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public ReglaEntradaBeneficiario EntradaBeneficiario { get; set; }
         public List<ReglaEntradaBeneficioPlan> EntradaBeneficios { get; set; }
     }
+
     public class ReglaEntradaContrato
     {
         public List<string> Region { get; set; }
@@ -24,6 +25,7 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public List<int> CodigoSucursal { get; set; }
         public List<int> NumeroLista { get; set; }
         public bool? EsDeducibleAnual { get; set; }
+        public bool? EsVigente { get; set; }
     }
 
     public class ReglaEntradaBeneficiario
@@ -39,8 +41,8 @@ namespace GestorReglaContratoCobertura.Modelos.Regla
         public bool? BeneficioOda { get; set; }
         public bool? Maternidad { get; set; }
         public bool? SuperaDeducible { get; set; }
+
         // Propiedad para recuperar deducible del contrato
         public double DeducibleTotal { get; set; }
-
     }
 }

@@ -1,12 +1,13 @@
 ﻿using GestorReglaContratoCobertura.Modelos.Contrato;
-using GestorReglaContratoCobertura.Modelos.Regla;
+using Saludsa.GestorReglaContratoCobertura.Regla;
 using System.Collections.Generic;
 
 namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Interfaces
 {
-    public interface IGestorReglaConstructorBeneficioPlan
+    internal interface IGestorReglaConstructorBeneficioPlan
     {
         void AplicarRegla(List<SalidaGenerica> beneficio);
+
         void IncorporarBeneficioPlan(BeneficiosPlan beneficiosPlan);
     }
 }
