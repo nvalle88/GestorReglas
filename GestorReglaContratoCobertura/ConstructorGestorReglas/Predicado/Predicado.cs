@@ -337,12 +337,45 @@ namespace GestorReglaContratoCobertura.ConstructorGestorReglas.Predicado
 
         internal static List<ReglaContrato> ObtenerReglasCandidatas(List<ReglaContrato> reglas, int convenio, int aplicacion, int plataforma)
         {
-            return reglas.Where(regla => regla.EstadoActivo
-                    && Validaciones.ValidarFechaRegla(regla)
-                    && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
-                    && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
-                    && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true)
-                .ToList();
+            //return reglas.Where(regla => regla.EstadoActivo
+            //        && Validaciones.ValidarFechaRegla(regla)
+            //        && regla.Convenio.IsNotNullOrEmpty() ? regla.Convenio.Contains(convenio) : true
+            //        && regla.Aplicacion.IsNotNullOrEmpty() ? regla.Aplicacion.Contains(aplicacion) : true
+            //        && regla.Plataforma.IsNotNullOrEmpty() ? regla.Plataforma.Contains(plataforma) : true)
+            //    .ToList();
+
+            var reglasAux = reglas.Where(regla => regla.EstadoActivo && Validaciones.ValidarFechaRegla(regla)).ToList();
+            var reglasSalida = new List<ReglaContrato>();
+            foreach (var regla in reglasAux)
+            {
+                if (regla.Convenio.IsNotNullOrEmpty())
+                {
+                    if (!regla.Convenio.Contains(convenio))
+                    {
+                        continue;
+                    }
+                }
+
+                if (regla.Aplicacion.IsNotNullOrEmpty())
+                {
+                    if (!regla.Aplicacion.Contains(aplicacion))
+                    {
+                        continue;
+                    }
+                }
+
+                if (regla.Plataforma.IsNotNullOrEmpty())
+                {
+                    if (!regla.Plataforma.Contains(plataforma))
+                    {
+                        continue;
+                    }
+                }
+
+                reglasSalida.Add(regla);
+            }
+
+            return reglasSalida;
         }
 
         internal static List<Contrato> ObtenerContratosCandidatos(List<Contrato> contratos, ReglaContrato regla, out List<MensajeConfiguracionRegla> listaMensajesContrato)

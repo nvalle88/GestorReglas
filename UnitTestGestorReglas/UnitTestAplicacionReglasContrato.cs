@@ -504,5 +504,21 @@ namespace UnitTestGestorReglas
             }
         }
 
+        [TestMethod]
+        public void ValidarReglasAprobadas()
+        {
+            var listaContratos = DatosPruebaContrato.Contrato743089();
+            var listaReglas = DatosPruebaRegla.ReglasAprobadas();
+            try
+            {
+                var gestor = new GestorReglaContrato<Contrato>(listaReglas, listaContratos);
+                var listaContratosRespuesta = gestor.AplicarReglasContratoCobertura(out var mensajes, 52876, 92);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
